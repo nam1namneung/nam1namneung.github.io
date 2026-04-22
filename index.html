@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ArokaGO – Your Trusted Partner for Global Healthcare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px; background: #fff; color: #1a1a1a; overflow-x: hidden;
+}
+
+/* NAV */
+.navbar {
+  position: sticky; top: 0; z-index: 999;
+  background: #fff; border-bottom: 1px solid #f0f0f0;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+}
+.nav-logo img { height: 36px; }
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links a { font-size: 14px; color: #444; text-decoration: none; font-weight: 400; transition: color .15s; }
+.nav-links a:hover { color: #009688; }
+.new-badge { background: #e8f5e9; color: #2e7d32; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: 600; margin-left: 4px; vertical-align: middle; }
+.nav-right { display: flex; gap: 10px; align-items: center; }
+.btn-signin { font-size: 14px; color: #009688; background: none; border: none; cursor: pointer; font-weight: 500; text-decoration: none; padding: 8px 14px; border-radius: 6px; transition: background .15s; }
+.btn-signin:hover { background: #f0fafa; }
+.btn-signup { font-size: 14px; background: #009688; color: #fff; border: none; cursor: pointer; font-weight: 500; text-decoration: none; padding: 9px 20px; border-radius: 6px; transition: background .15s; }
+.btn-signup:hover { background: #00796b; }
+
+/* HERO */
+.hero { position: relative; min-height: 560px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background: #0a2a22; }
+.hero-bg { position: absolute; inset: 0; background-image: url('https://www.arokago.com/_next/image?url=%2Fimages%2Fbg%2F10.jpg&w=1920&q=75'); background-size: cover; background-position: center; opacity: 0.35; }
+.hero-content { position: relative; z-index: 1; max-width: 800px; padding: 80px 24px; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 13px; padding: 5px 14px; border-radius: 20px; margin-bottom: 20px; }
+.hero-eyebrow .dot { width: 7px; height: 7px; background: #4caf50; border-radius: 50%; }
+.hero h1 { font-size: clamp(28px, 4.5vw, 48px); font-weight: 600; color: #fff; line-height: 1.2; margin-bottom: 16px; }
+.hero p { font-size: 16px; color: rgba(255,255,255,0.72); line-height: 1.65; max-width: 580px; margin: 0 auto 32px; font-weight: 300; }
+.hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-hero-primary { background: #009688; color: #fff; font-size: 14px; font-weight: 500; border: none; cursor: pointer; padding: 12px 28px; border-radius: 8px; text-decoration: none; transition: background .15s; }
+.btn-hero-primary:hover { background: #00796b; }
+.btn-hero-secondary { background: rgba(255,255,255,0.12); color: #fff; font-size: 14px; font-weight: 500; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; padding: 12px 28px; border-radius: 8px; text-decoration: none; transition: background .15s; }
+.btn-hero-secondary:hover { background: rgba(255,255,255,0.2); }
+.hero-badges { display: flex; gap: 20px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
+.hero-badge-item { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.6); font-size: 13px; }
+
+/* STATS */
+.stats-bar { background: #fff; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: center; }
+.stat-item { padding: 22px 48px; text-align: center; border-right: 1px solid #f0f0f0; }
+.stat-item:last-child { border-right: none; }
+.stat-num { font-size: 22px; font-weight: 600; color: #009688; }
+.stat-label { font-size: 12px; color: #888; margin-top: 2px; }
+
+/* PARTNERS */
+.partners-bar { background: #fafafa; border-bottom: 1px solid #f0f0f0; padding: 16px 0; overflow: hidden; }
+.partners-track { display: flex; align-items: center; gap: 48px; animation: marquee 28s linear infinite; white-space: nowrap; width: max-content; }
+.partners-track img { height: 32px; opacity: 0.55; filter: grayscale(1); }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.partners-label { text-align: center; font-size: 12px; color: #aaa; letter-spacing: .06em; text-transform: uppercase; padding: 12px 0 4px; }
+
+/* LAYOUT */
+.section { padding: 72px 40px; }
+.section-gray { background: #fafafa; }
+.container { max-width: 1180px; margin: 0 auto; }
+.section-header { margin-bottom: 36px; }
+.section-header h2 { font-size: 26px; font-weight: 600; color: #1a1a1a; }
+.section-header p { font-size: 14px; color: #666; margin-top: 6px; line-height: 1.6; }
+.section-header-row { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; }
+.link-all { font-size: 14px; color: #009688; text-decoration: none; font-weight: 500; }
+.link-all:hover { text-decoration: underline; }
+
+/* TABS */
+.tabs { display: flex; border-bottom: 2px solid #f0f0f0; margin-bottom: 28px; overflow-x: auto; }
+.tab-btn { font-size: 13px; font-weight: 500; color: #888; background: none; border: none; cursor: pointer; padding: 10px 20px; border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; transition: color .15s; }
+.tab-btn.active { color: #009688; border-bottom-color: #009688; }
+.tab-btn:hover:not(.active) { color: #333; }
+
+/* PROVIDERS */
+.provider-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+.provider-card { border: 1px solid #f0f0f0; border-radius: 10px; overflow: hidden; text-decoration: none; color: inherit; display: block; transition: box-shadow .2s, transform .2s; }
+.provider-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.provider-card-img { height: 150px; overflow: hidden; position: relative; }
+.provider-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.verified-tag { position: absolute; top: 8px; left: 8px; background: #009688; color: #fff; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+.provider-card-body { padding: 12px 14px; }
+.provider-card-name { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+.provider-card-loc { font-size: 12px; color: #999; margin-top: 3px; }
+.provider-card-footer { padding: 0 14px 14px; display: flex; gap: 8px; }
+.btn-view-provider { flex: 1; font-size: 12px; font-weight: 500; color: #009688; background: none; border: 1px solid #e0e0e0; border-radius: 6px; padding: 7px 0; text-align: center; text-decoration: none; transition: border-color .15s; display: block; }
+.btn-view-provider:hover { border-color: #009688; }
+.btn-ask-ai { flex: 1; font-size: 12px; font-weight: 500; color: #fff; background: #009688; border: none; border-radius: 6px; padding: 7px 0; cursor: pointer; transition: background .15s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+.btn-ask-ai:hover { background: #00796b; }
+
+/* DESTINATIONS */
+.dest-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.dest-card { border-radius: 10px; overflow: hidden; position: relative; height: 160px; text-decoration: none; display: block; }
+.dest-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.dest-card:hover img { transform: scale(1.06); }
+.dest-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%); }
+.dest-info { position: absolute; bottom: 12px; left: 14px; }
+.dest-name { font-size: 15px; font-weight: 600; color: #fff; }
+.dest-count { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+
+/* BLOG */
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; }
+.blog-card { border: 1px solid #f0f0f0; border-radius: 10px; overflow: hidden; text-decoration: none; color: inherit; transition: box-shadow .2s; }
+.blog-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+.blog-card img { width: 100%; height: 160px; object-fit: cover; }
+.blog-card-body { padding: 14px 16px; }
+.blog-meta { font-size: 11px; color: #aaa; margin-bottom: 6px; }
+.blog-title { font-size: 14px; font-weight: 600; color: #1a1a1a; line-height: 1.45; }
+
+/* NEWS */
+.news-list { display: flex; flex-direction: column; gap: 20px; }
+.news-item { display: flex; gap: 18px; align-items: flex-start; border-bottom: 1px solid #f5f5f5; padding-bottom: 20px; text-decoration: none; color: inherit; }
+.news-item:last-child { border-bottom: none; }
+.news-item img { width: 120px; height: 80px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.news-cat { font-size: 11px; color: #009688; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+.news-title { font-size: 14px; font-weight: 600; margin-top: 4px; line-height: 1.45; color: #1a1a1a; }
+.news-excerpt { font-size: 13px; color: #777; margin-top: 4px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ══ V0 FEATURES ══ */
+
+/* PROVIDER CHAT MODAL */
+.chat-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; }
+.chat-modal-overlay.open { display: flex; }
+.chat-modal { background: #fff; border-radius: 14px; overflow: hidden; width: 420px; max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,0.2); display: flex; flex-direction: column; height: 560px; }
+.chat-header { background: #009688; padding: 14px 18px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.chat-avatar { width: 38px; height: 38px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.chat-header-info { flex: 1; }
+.chat-header-name { font-size: 14px; font-weight: 600; color: #fff; }
+.chat-header-sub { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 1px; }
+.chat-header-status { font-size: 11px; color: rgba(255,255,255,0.75); display: flex; align-items: center; gap: 4px; margin-top: 2px; }
+.chat-header-status::before { content:''; width: 6px; height: 6px; background: #4caf50; border-radius: 50%; }
+.chat-close { background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; font-size: 20px; padding: 4px; line-height: 1; }
+.chat-close:hover { color: #fff; }
+
+/* BOOKING MODAL */
+.booking-modal { background: #fff; border-radius: 14px; width: 460px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+.booking-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; border-bottom: 1px solid #f0f0f0; }
+.booking-modal-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.booking-field { display: flex; flex-direction: column; gap: 6px; }
+.booking-field label { font-size: 12px; font-weight: 600; color: #555; letter-spacing: .04em; text-transform: uppercase; }
+.booking-field input, .booking-field select, .booking-field textarea { border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px 12px; font-size: 14px; font-family: inherit; outline: none; transition: border .15s; }
+.booking-field input:focus, .booking-field select:focus, .booking-field textarea:focus { border-color: #009688; }
+.booking-field textarea { resize: vertical; }
+.booking-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.booking-submit { background: #009688; color: #fff; border: none; border-radius: 8px; padding: 13px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .15s; margin-top: 4px; }
+.booking-submit:hover { background: #00796b; }
+.booking-success { text-align: center; padding: 32px 24px; }
+.booking-success .success-icon { font-size: 48px; margin-bottom: 16px; }
+.booking-success h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+.booking-success p { font-size: 14px; color: #666; line-height: 1.6; }
+.chat-messages { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; background: #fafafa; }
+.msg-bot, .msg-user { max-width: 80%; }
+.msg-bot { align-self: flex-start; }
+.msg-user { align-self: flex-end; }
+.msg-bubble { padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
+.msg-bot .msg-bubble { background: #fff; border: 1px solid #e8e8e8; color: #1a1a1a; border-radius: 4px 12px 12px 12px; }
+.msg-user .msg-bubble { background: #009688; color: #fff; border-radius: 12px 4px 12px 12px; }
+.msg-time { font-size: 10px; color: #bbb; margin-top: 4px; padding: 0 4px; }
+.chat-typing { align-self: flex-start; }
+.chat-typing .msg-bubble { color: #aaa; font-style: italic; }
+.chat-input-row { padding: 12px 14px; border-top: 1px solid #f0f0f0; display: flex; gap: 8px; background: #fff; flex-shrink: 0; }
+.chat-input { flex: 1; border: 1px solid #e8e8e8; border-radius: 8px; padding: 9px 12px; font-size: 13px; outline: none; font-family: inherit; transition: border .15s; }
+.chat-input:focus { border-color: #009688; }
+.chat-send { background: #009688; color: #fff; border: none; border-radius: 8px; padding: 9px 16px; cursor: pointer; font-size: 13px; font-weight: 500; transition: background .15s; }
+.chat-send:hover { background: #00796b; }
+
+/* TERM TOOLTIP */
+.med-term { color: #009688; border-bottom: 1px dashed #009688; cursor: pointer; font-weight: 500; }
+.med-term:hover { background: #e8f5f3; border-radius: 3px; }
+.term-popup { display:none; position:fixed; z-index:3000; background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:14px 16px; width:280px; box-shadow:0 8px 30px rgba(0,0,0,0.12); font-size:13px; }
+.term-popup.show { display:block; }
+.term-popup-title { font-weight:700; color:#009688; margin-bottom:6px; font-size:14px; }
+.term-popup-body { color:#444; line-height:1.55; }
+.term-popup-link { display:inline-flex; align-items:center; gap:5px; margin-top:10px; font-size:12px; font-weight:600; color:#009688; text-decoration:none; }
+.term-popup-link:hover { text-decoration:underline; }
+
+/* CURRENCY CONVERTER */
+.currency-bar { background:#f4fdfb; border-top:1px solid #e0f2ef; border-bottom:1px solid #e0f2ef; padding:14px 40px; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.currency-bar label { font-size:12px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:.05em; white-space:nowrap; }
+.currency-input { border:1px solid #c8e6e0; border-radius:8px; padding:8px 12px; font-size:14px; font-family:inherit; outline:none; width:140px; transition:border .15s; }
+.currency-input:focus { border-color:#009688; }
+.currency-select { border:1px solid #c8e6e0; border-radius:8px; padding:8px 12px; font-size:14px; font-family:inherit; outline:none; background:#fff; cursor:pointer; }
+.currency-result { font-size:15px; font-weight:700; color:#009688; margin-left:4px; }
+.currency-rate { font-size:11px; color:#aaa; }
+
+/* ACCREDITATION FILTER */
+.accred-filter { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:24px; }
+.accred-filter-label { font-size:12px; font-weight:600; color:#888; text-transform:uppercase; letter-spacing:.06em; }
+.accred-badge { position:relative; display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:5px 12px; border-radius:20px; border:1.5px solid #e0e0e0; cursor:pointer; transition:all .15s; user-select:none; background:#fff; color:#555; }
+.accred-badge.active { border-color:#009688; background:#e8f5f3; color:#009688; }
+.accred-badge:hover { border-color:#009688; }
+.accred-badge .accred-dot { width:7px; height:7px; border-radius:50%; background:currentColor; }
+.accred-tooltip { display:none; position:fixed; z-index:3000; background:#1a1a1a; color:#fff; border-radius:8px; padding:10px 14px; width:240px; font-size:12px; line-height:1.55; box-shadow:0 6px 20px rgba(0,0,0,0.2); pointer-events:none; }
+.accred-tooltip.show { display:block; }
+.accred-tooltip-title { font-weight:700; font-size:13px; margin-bottom:4px; }
+.interp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.interp-card { border: 1px solid #f0f0f0; border-radius: 10px; padding: 18px 20px; background: #fff; transition: box-shadow .2s; }
+.interp-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
+.interp-card.unavailable { opacity: .55; }
+.interp-top { display: flex; align-items: flex-start; gap: 14px; }
+.interp-avatar { width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0; background: #009688; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; color: #fff; }
+.interp-name { font-size: 15px; font-weight: 600; }
+.interp-meta { font-size: 12px; color: #888; margin-top: 2px; }
+.interp-rating { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #555; margin-top: 4px; }
+.star { color: #f59e0b; }
+.unavail-badge { margin-left: auto; font-size: 11px; background: #fee2e2; color: #b91c1c; padding: 3px 8px; border-radius: 20px; font-weight: 500; white-space: nowrap; }
+.interp-bio { font-size: 13px; color: #666; line-height: 1.55; margin-top: 12px; }
+.interp-langs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.lang-tag { font-size: 11px; background: #e8f5e9; color: #2e7d32; padding: 3px 9px; border-radius: 20px; font-weight: 500; }
+.interp-specs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+.spec-tag { font-size: 11px; background: #f0f4ff; color: #3730a3; padding: 3px 9px; border-radius: 20px; }
+.interp-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding-top: 12px; border-top: 1px solid #f5f5f5; }
+.interp-price { font-size: 15px; font-weight: 700; color: #009688; }
+.interp-price span { font-size: 12px; font-weight: 400; color: #aaa; }
+.btn-book-interp { font-size: 13px; font-weight: 500; background: #009688; color: #fff; border: none; border-radius: 6px; padding: 7px 16px; cursor: pointer; transition: background .15s; text-decoration: none; display: inline-block; }
+.btn-book-interp:hover { background: #00796b; }
+.btn-book-interp.disabled { background: #e0e0e0; color: #aaa; cursor: default; pointer-events: none; }
+
+/* ONBOARDING */
+.onboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 700px; margin: 0 auto; }
+.onboard-card { border: 1.5px solid #e0e0e0; border-radius: 12px; padding: 32px 28px; text-align: center; cursor: pointer; transition: border-color .2s, box-shadow .2s; text-decoration: none; color: inherit; display: block; }
+.onboard-card:hover { border-color: #009688; box-shadow: 0 6px 20px rgba(0,150,136,0.1); }
+.onboard-icon { font-size: 40px; margin-bottom: 14px; }
+.onboard-title { font-size: 18px; font-weight: 600; color: #1a1a1a; }
+.onboard-desc { font-size: 13px; color: #777; margin-top: 8px; line-height: 1.6; }
+.onboard-secure { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 12px; color: #aaa; margin-top: 24px; }
+
+/* APP */
+.app-banner { background: linear-gradient(120deg, #004d40 0%, #009688 100%); padding: 50px 40px; }
+.app-inner { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.app-text h2 { font-size: 24px; font-weight: 600; color: #fff; }
+.app-text p { font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 6px; max-width: 480px; }
+.app-store-btns { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+.store-btn { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 10px; padding: 11px 20px; text-decoration: none; color: #fff; transition: background .15s; }
+.store-btn:hover { background: rgba(255,255,255,0.22); }
+.store-btn-icon { font-size: 22px; }
+.store-btn-sm { font-size: 10px; opacity: .7; }
+.store-btn-lg { font-size: 15px; font-weight: 600; }
+
+/* FOOTER */
+footer { background: #0d0d0d; color: rgba(255,255,255,0.55); padding: 52px 40px 28px; }
+.footer-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 48px; }
+.footer-brand img { height: 34px; margin-bottom: 12px; }
+.footer-brand p { font-size: 13px; line-height: 1.65; max-width: 260px; }
+.footer-col h4 { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: #fff; margin-bottom: 16px; font-weight: 600; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.footer-col ul a { font-size: 13px; color: rgba(255,255,255,0.5); text-decoration: none; transition: color .15s; }
+.footer-col ul a:hover { color: #4db6ac; }
+.footer-bottom { max-width: 1180px; margin: 36px auto 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+.social-row { display: flex; gap: 14px; }
+.social-row a { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .15s; }
+.social-row a:hover { color: #4db6ac; }
+
+@media (max-width: 900px) {
+  .navbar { padding: 0 20px; }
+  .nav-links { display: none; }
+  .section { padding: 48px 20px; }
+  .stats-bar { flex-wrap: wrap; }
+  .stat-item { flex: 1 1 50%; border-right: none; border-bottom: 1px solid #f0f0f0; }
+  .chat-wrapper { grid-template-columns: 1fr; }
+  .chat-widget { display: none; }
+  .onboard-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="https://www.arokago.com/en" class="nav-logo">
+    <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Flogo%2Fno-bg%2Flogo-color-removebg.png&w=256&q=75" alt="ArokaGO"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://www.arokago.com/providers">Find Providers</a></li>
+    <li><a href="https://www.arokago.com/en">Knowledge</a></li>
+    <li><a href="https://www.arokago.com/en">Company</a></li>
+    <li><a href="https://v0-medical-consultation-booking.vercel.app/interpreters">Interpreters <span class="new-badge">NEW</span></a></li>
+    <li><a href="https://www.arokago.com/community">Community</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://www.arokago.com/auth/signin" class="btn-signin">Sign In</a>
+    <a href="https://v0-medical-consultation-booking.vercel.app/onboarding" class="btn-signup">Sign Up</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="dot"></span> 500,000+ Global Visitors Every Year</div>
+    <h1>Experience Top-Tier Medical Tourism &amp; Wellness in Thailand</h1>
+    <p>AI intelligently connects you with verified hospitals, clinics, wellness and health centers, and well-hotels in Thailand, supporting you every step of your journey.</p>
+    <div class="hero-btns">
+      <a href="https://www.arokago.com/providers" class="btn-hero-primary">Search Providers</a>
+      <a href="https://v0-medical-consultation-booking.vercel.app/chat" class="btn-hero-secondary">Match Me with Providers</a>
+    </div>
+    <div class="hero-badges">
+      <div class="hero-badge-item"><span>⚡</span> Instant AI Match</div>
+      <div class="hero-badge-item"><span>📍</span> Auto-detect Location</div>
+      <div class="hero-badge-item"><span>🕐</span> 24/7 Support</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num">215</div><div class="stat-label">Verified Providers</div></div>
+  <div class="stat-item"><div class="stat-num">3,242</div><div class="stat-label">Services</div></div>
+  <div class="stat-item"><div class="stat-num">4.5 ★</div><div class="stat-label">Customer Satisfaction</div></div>
+  <div class="stat-item"><div class="stat-num">50,000+</div><div class="stat-label">International Patients</div></div>
+</div>
+
+<!-- PARTNERS -->
+<div class="partners-bar">
+  <div class="partners-label">Powering Thailand's leading healthcare partners</div>
+  <div style="overflow:hidden;padding:8px 0;">
+    <div class="partners-track">
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fpartners%2FTMWTA.png&w=256&q=75" alt="TMWTA"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fministry_of_higher_edu.png&w=384&q=75" alt="Ministry"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fnia.png&w=384&q=75" alt="NIA"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fregional_Inno.png&w=384&q=75" alt="Regional Innovation"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fopen_inno.png&w=384&q=75" alt="Open Innovation"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fted-fund.png&w=384&q=75" alt="TED Fund"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fted-market-scaleup.png&w=384&q=75" alt="TED Market Scaleup"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fpartners%2FTMWTA.png&w=256&q=75" alt="TMWTA"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fministry_of_higher_edu.png&w=384&q=75" alt="Ministry"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fnia.png&w=384&q=75" alt="NIA"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fregional_Inno.png&w=384&q=75" alt="Regional Innovation"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fopen_inno.png&w=384&q=75" alt="Open Innovation"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fted-fund.png&w=384&q=75" alt="TED Fund"/>
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Fsupported-by%2Fted-market-scaleup.png&w=384&q=75" alt="TED Market Scaleup"/>
+    </div>
+  </div>
+</div>
+
+<!-- PROVIDER CHAT MODAL -->
+<div class="chat-modal-overlay" id="chatModal" onclick="if(event.target===this)closeChat()">
+  <div class="chat-modal">
+    <div class="chat-header">
+      <div class="chat-avatar" id="modalAvatar">🏥</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name" id="modalProviderName">Provider</div>
+        <div class="chat-header-sub" id="modalProviderLoc">Bangkok, Thailand</div>
+        <div class="chat-header-status">AI Assistant Online</div>
+      </div>
+      <button class="chat-close" onclick="closeChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Ask about services, pricing, appointments…" onkeydown="if(event.key==='Enter')sendMsg()"/>
+      <button class="chat-send" id="chatSendBtn" onclick="sendMsg()">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING CONFIRMATION MODAL -->
+<div class="chat-modal-overlay" id="bookingModal" onclick="if(event.target===this)closeBooking()" style="z-index:2100;">
+  <div class="booking-modal">
+    <div class="booking-modal-header">
+      <div>
+        <div style="font-size:15px;font-weight:600;color:#1a1a1a" id="bookingProviderTitle">Book Appointment</div>
+        <div style="font-size:12px;color:#888;margin-top:2px" id="bookingProviderSub"></div>
+      </div>
+      <button class="chat-close" style="color:#666" onclick="closeBooking()">✕</button>
+    </div>
+    <div class="booking-modal-body" id="bookingModalBody">
+      <div class="booking-field">
+        <label>Full Name</label>
+        <input type="text" id="bkName" placeholder="Your full name"/>
+      </div>
+      <div class="booking-field">
+        <label>Email</label>
+        <input type="email" id="bkEmail" placeholder="your@email.com"/>
+      </div>
+      <div class="booking-field">
+        <label>Phone / WhatsApp</label>
+        <input type="text" id="bkPhone" placeholder="+1 234 567 8900"/>
+      </div>
+      <div class="booking-field">
+        <label>Treatment / Service</label>
+        <input type="text" id="bkService" placeholder="e.g. Dental implant, knee surgery…"/>
+      </div>
+      <div class="booking-row">
+        <div class="booking-field">
+          <label>Preferred Date</label>
+          <input type="date" id="bkDate"/>
+        </div>
+        <div class="booking-field">
+          <label>Preferred Time</label>
+          <select id="bkTime">
+            <option value="">Select time</option>
+            <option>09:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+            <option>01:00 PM</option><option>02:00 PM</option><option>03:00 PM</option><option>04:00 PM</option>
+          </select>
+        </div>
+      </div>
+      <div class="booking-field">
+        <label>Additional Notes</label>
+        <textarea id="bkNotes" placeholder="Any medical history, special requirements…" rows="3"></textarea>
+      </div>
+      <button class="booking-submit" onclick="submitBooking()">Confirm Appointment Request</button>
+    </div>
+  </div>
+</div>
+
+<!-- TERM POPUP -->
+<div class="term-popup" id="termPopup">
+  <div class="term-popup-title" id="termTitle"></div>
+  <div class="term-popup-body" id="termBody"></div>
+  <a class="term-popup-link" id="termLink" href="#" target="_blank">📖 Learn more on ArokaGO →</a>
+</div>
+
+<!-- ACCRED TOOLTIP -->
+<div class="accred-tooltip" id="accredTooltip">
+  <div class="accred-tooltip-title" id="accredTipTitle"></div>
+  <div id="accredTipBody"></div>
+</div>
+
+<!-- CURRENCY CONVERTER BAR -->
+<div class="currency-bar">
+  <label>💱 Convert Price</label>
+  <input class="currency-input" id="thbInput" type="number" placeholder="THB amount" oninput="convertCurrency()"/>
+  <select class="currency-select" id="currencyTo" onchange="convertCurrency()">
+    <option value="USD">🇺🇸 USD</option>
+    <option value="EUR">🇪🇺 EUR</option>
+    <option value="GBP">🇬🇧 GBP</option>
+    <option value="AUD">🇦🇺 AUD</option>
+    <option value="JPY">🇯🇵 JPY</option>
+    <option value="CNY">🇨🇳 CNY</option>
+    <option value="SGD">🇸🇬 SGD</option>
+    <option value="HKD">🇭🇰 HKD</option>
+    <option value="INR">🇮🇳 INR</option>
+    <option value="AED">🇦🇪 AED</option>
+    <option value="KRW">🇰🇷 KRW</option>
+    <option value="CAD">🇨🇦 CAD</option>
+    <option value="CHF">🇨🇭 CHF</option>
+    <option value="MYR">🇲🇾 MYR</option>
+  </select>
+  <span class="currency-result" id="currencyResult">—</span>
+  <span class="currency-rate" id="currencyRate"></span>
+</div>
+
+<!-- PROVIDERS -->
+<section class="section section-gray">
+  <div class="container">
+    <div class="section-header-row">
+      <div><h2 style="font-size:26px;font-weight:600;">Meet 215 Verified Providers</h2><p style="font-size:14px;color:#666;margin-top:6px;">Connect with world-class healthcare providers — or chat with their AI instantly</p></div>
+      <a href="https://www.arokago.com/providers" class="link-all">View All Providers →</a>
+    </div>
+
+    <!-- ACCREDITATION FILTER -->
+    <div class="accred-filter">
+      <span class="accred-filter-label">Filter by:</span>
+      <span class="accred-badge active" data-accred="all">All Providers</span>
+      <span class="accred-badge" data-accred="JCI"
+        onmouseenter="showAccredTip(this,'JCI — Joint Commission International','The world\'s most rigorous healthcare accreditation. JCI-accredited hospitals meet the highest international standards for patient safety, quality of care, and clinical outcomes.')"
+        onmouseleave="hideAccredTip()">
+        <span class="accred-dot"></span> JCI
+      </span>
+      <span class="accred-badge" data-accred="HA"
+        onmouseenter="showAccredTip(this,'HA — Hospital Accreditation (Thailand)','Thailand\'s national hospital accreditation standard issued by the Healthcare Accreditation Institute (HAI). Ensures hospitals meet Thai Ministry of Public Health quality benchmarks.')"
+        onmouseleave="hideAccredTip()">
+        <span class="accred-dot"></span> HA Thailand
+      </span>
+      <span class="accred-badge" data-accred="ISO"
+        onmouseenter="showAccredTip(this,'ISO 9001 — Quality Management','International Standard for quality management systems. Hospitals with ISO 9001 have documented, consistent processes for delivering services and continuously improving patient care.')"
+        onmouseleave="hideAccredTip()">
+        <span class="accred-dot"></span> ISO 9001
+      </span>
+      <span class="accred-badge" data-accred="AACI"
+        onmouseenter="showAccredTip(this,'AACI — American Accreditation Commission International','US-based accreditation recognising hospitals that meet American healthcare standards. Popular among patients from North America seeking familiar quality benchmarks abroad.')"
+        onmouseleave="hideAccredTip()">
+        <span class="accred-dot"></span> AACI
+      </span>
+      <span class="accred-badge" data-accred="GHA"
+        onmouseenter="showAccredTip(this,'GHA — Global Healthcare Accreditation','Specifically designed for medical tourism facilities. GHA-accredited providers are trained to serve international patients across cultural, language, and logistical needs.')"
+        onmouseleave="hideAccredTip()">
+        <span class="accred-dot"></span> GHA
+      </span>
+    </div>
+    <div class="tabs" id="provTabs">
+      <button class="tab-btn active">Hospitals</button>
+      <button class="tab-btn">Clinics</button>
+      <button class="tab-btn">Dental Clinics</button>
+      <button class="tab-btn">Aesthetic &amp; Cosmetic</button>
+      <button class="tab-btn">Rehabilitation Centers</button>
+    </div>
+    <div class="provider-grid">
+      <div class="provider-card" data-accred="JCI HA">
+        <a href="https://www.arokago.com/providers/slc-hospital"><div class="provider-card-img"><img src="https://backend.arokago.com/media/hospitals/featured/1661495327cover_size.webp" alt="SLC Hospital" onerror="this.src='https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=400&q=70'"/><span class="verified-tag">✓ Verified</span></div><div class="provider-card-body"><div class="provider-card-name">SLC Hospital</div><div class="provider-card-loc">📍 Bangkok, Thailand</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">JCI</span><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">HA</span></div></div></a>
+        <div class="provider-card-footer"><a href="https://www.arokago.com/providers/slc-hospital" class="btn-view-provider">View Profile</a><button class="btn-ask-ai" onclick="openChat('SLC Hospital','Bangkok, Thailand','🏥')">💬 Ask AI</button></div>
+      </div>
+      <div class="provider-card" data-accred="HA ISO">
+        <a href="https://www.arokago.com/providers/navamin-9-hospital"><div class="provider-card-img"><img src="https://backend.arokago.com/media/hospitals/featured/DSC_0517.jpg" alt="Navamin 9" onerror="this.src='https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=400&q=70'"/><span class="verified-tag">✓ Verified</span></div><div class="provider-card-body"><div class="provider-card-name">Navamin 9 Hospital</div><div class="provider-card-loc">📍 Bangkok, Thailand</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">HA</span><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">ISO</span></div></div></a>
+        <div class="provider-card-footer"><a href="https://www.arokago.com/providers/navamin-9-hospital" class="btn-view-provider">View Profile</a><button class="btn-ask-ai" onclick="openChat('Navamin 9 Hospital','Bangkok, Thailand','🏥')">💬 Ask AI</button></div>
+      </div>
+      <div class="provider-card" data-accred="AACI HA">
+        <a href="https://www.arokago.com/providers/krung-siam-st-carlos-medical-centre"><div class="provider-card-img"><img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&q=70" alt="Krung Siam"/><span class="verified-tag">✓ Verified</span></div><div class="provider-card-body"><div class="provider-card-name">Krung Siam St. Carlos Medical Centre</div><div class="provider-card-loc">📍 Bangkok, Thailand</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">AACI</span><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">HA</span></div></div></a>
+        <div class="provider-card-footer"><a href="https://www.arokago.com/providers/krung-siam-st-carlos-medical-centre" class="btn-view-provider">View Profile</a><button class="btn-ask-ai" onclick="openChat('Krung Siam St. Carlos Medical Centre','Bangkok, Thailand','🏥')">💬 Ask AI</button></div>
+      </div>
+      <div class="provider-card" data-accred="JCI GHA HA">
+        <a href="https://www.arokago.com/providers/vibhavadi-hospital"><div class="provider-card-img"><img src="https://backend.arokago.com/media/hospitals/featured/Vibhavadi_Hospital_35-chMkXhkOH-transformed_ubH0qfo.jpeg" alt="Vibhavadi" onerror="this.src='https://images.unsplash.com/photo-1571772996211-2f02c9727629?w=400&q=70'"/><span class="verified-tag">✓ Verified</span></div><div class="provider-card-body"><div class="provider-card-name">Vibhavadi Hospital</div><div class="provider-card-loc">📍 Bangkok, Thailand</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">JCI</span><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">GHA</span><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">HA</span></div></div></a>
+        <div class="provider-card-footer"><a href="https://www.arokago.com/providers/vibhavadi-hospital" class="btn-view-provider">View Profile</a><button class="btn-ask-ai" onclick="openChat('Vibhavadi Hospital','Bangkok, Thailand','🏥')">💬 Ask AI</button></div>
+      </div>
+      <div class="provider-card" data-accred="ISO HA">
+        <a href="https://www.arokago.com/providers/cgh-hospital"><div class="provider-card-img"><img src="https://backend.arokago.com/media/hospitals/featured/snapedit_1691469707677.jpeg" alt="CGH" onerror="this.src='https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=400&q=70'"/><span class="verified-tag">✓ Verified</span></div><div class="provider-card-body"><div class="provider-card-name">CGH Hospital</div><div class="provider-card-loc">📍 Bangkok, Thailand</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">ISO</span><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">HA</span></div></div></a>
+        <div class="provider-card-footer"><a href="https://www.arokago.com/providers/cgh-hospital" class="btn-view-provider">View Profile</a><button class="btn-ask-ai" onclick="openChat('CGH Hospital','Bangkok, Thailand','🏥')">💬 Ask AI</button></div>
+      </div>
+      <div class="provider-card" data-accred="GHA ISO">
+        <a href="https://www.arokago.com/providers/synphaet-hospital-kanchanaburi"><div class="provider-card-img"><img src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=400&q=70" alt="Synphaet"/><span class="verified-tag">✓ Verified</span></div><div class="provider-card-body"><div class="provider-card-name">Synphaet Hospital Kanchanaburi</div><div class="provider-card-loc">📍 Kanchanaburi, Thailand</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">GHA</span><span style="font-size:10px;background:#e8f5f3;color:#009688;padding:2px 7px;border-radius:10px;font-weight:600">ISO</span></div></div></a>
+        <div class="provider-card-footer"><a href="https://www.arokago.com/providers/synphaet-hospital-kanchanaburi" class="btn-view-provider">View Profile</a><button class="btn-ask-ai" onclick="openChat('Synphaet Hospital Kanchanaburi','Kanchanaburi, Thailand','🏥')">💬 Ask AI</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ V0 FEATURE 2: MEDICAL INTERPRETERS ═══ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header-row">
+      <div><h2 style="font-size:26px;font-weight:600;">Medical Interpreters</h2><p style="font-size:14px;color:#666;margin-top:6px;">Hire verified interpreters for your medical journey · 8 available</p></div>
+      <a href="https://v0-medical-consultation-booking.vercel.app/interpreters" class="link-all">View All Interpreters →</a>
+    </div>
+    <div class="interp-grid">
+
+      <div class="interp-card">
+        <div class="interp-top">
+          <div class="interp-avatar">SP</div>
+          <div><div class="interp-name">Somchai Prasert</div><div class="interp-meta">1,240 sessions</div><div class="interp-rating"><span class="star">★</span> 4.9 <span style="color:#bbb">(342 reviews)</span></div></div>
+        </div>
+        <div class="interp-bio">Certified medical interpreter with 8+ years in hospital settings. Specialized in surgical terminology and patient-doctor communication.</div>
+        <div class="interp-langs"><span class="lang-tag">Thai</span><span class="lang-tag">English</span><span class="lang-tag">Mandarin</span></div>
+        <div class="interp-specs"><span class="spec-tag">Orthopedics</span><span class="spec-tag">Cardiology</span></div>
+        <div class="interp-footer"><div class="interp-price">THB 1,500 <span>/session</span></div><a href="https://v0-medical-consultation-booking.vercel.app/interpreters" class="btn-book-interp">Book</a></div>
+      </div>
+
+      <div class="interp-card">
+        <div class="interp-top">
+          <div class="interp-avatar" style="background:#7c3aed">NW</div>
+          <div><div class="interp-name">Nattaya Wongchai</div><div class="interp-meta">890 sessions</div><div class="interp-rating"><span class="star">★</span> 4.8 <span style="color:#bbb">(289 reviews)</span></div></div>
+        </div>
+        <div class="interp-bio">Former nurse turned professional medical interpreter. Expert in cosmetic and dental procedure terminology.</div>
+        <div class="interp-langs"><span class="lang-tag">Thai</span><span class="lang-tag">English</span><span class="lang-tag">Japanese</span></div>
+        <div class="interp-specs"><span class="spec-tag">Dermatology</span><span class="spec-tag">Cosmetic Surgery</span></div>
+        <div class="interp-footer"><div class="interp-price">THB 1,200 <span>/session</span></div><a href="https://v0-medical-consultation-booking.vercel.app/interpreters" class="btn-book-interp">Book</a></div>
+      </div>
+
+      <div class="interp-card unavailable">
+        <div class="interp-top">
+          <div class="interp-avatar" style="background:#64748b">PK</div>
+          <div><div class="interp-name">Prasit Kaewmanee</div><div class="interp-meta">720 sessions</div><div class="interp-rating"><span class="star">★</span> 4.7 <span style="color:#bbb">(198 reviews)</span></div></div>
+          <span class="unavail-badge">Unavailable</span>
+        </div>
+        <div class="interp-bio">Medical terminology specialist with pharmaceutical research background. Expert in complex diagnoses and treatment plans.</div>
+        <div class="interp-langs"><span class="lang-tag">Thai</span><span class="lang-tag">English</span><span class="lang-tag">Korean</span></div>
+        <div class="interp-specs"><span class="spec-tag">Oncology</span><span class="spec-tag">Neurology</span></div>
+        <div class="interp-footer"><div class="interp-price">THB 1,800 <span>/session</span></div><button class="btn-book-interp disabled" disabled>Unavailable</button></div>
+      </div>
+
+      <div class="interp-card">
+        <div class="interp-top">
+          <div class="interp-avatar" style="background:#b45309">AT</div>
+          <div><div class="interp-name">Areeya Thongsuk</div><div class="interp-meta">1,580 sessions</div><div class="interp-rating"><span class="star">★</span> 4.9 <span style="color:#bbb">(415 reviews)</span></div></div>
+        </div>
+        <div class="interp-bio">Highly experienced interpreter focusing on reproductive health and pediatric care. Known for compassionate communication.</div>
+        <div class="interp-langs"><span class="lang-tag">Thai</span><span class="lang-tag">English</span><span class="lang-tag">Arabic</span></div>
+        <div class="interp-specs"><span class="spec-tag">Obstetrics</span><span class="spec-tag">Pediatrics</span></div>
+        <div class="interp-footer"><div class="interp-price">THB 2,000 <span>/session</span></div><a href="https://v0-medical-consultation-booking.vercel.app/interpreters" class="btn-book-interp">Book</a></div>
+      </div>
+
+      <div class="interp-card">
+        <div class="interp-top">
+          <div class="interp-avatar" style="background:#0369a1">WJ</div>
+          <div><div class="interp-name">Wipawee Jantaraksa</div><div class="interp-meta">980 sessions</div><div class="interp-rating"><span class="star">★</span> 4.8 <span style="color:#bbb">(267 reviews)</span></div></div>
+        </div>
+        <div class="interp-bio">Multilingual interpreter with European hospital experience. Adept at emergency situations and complex surgical consultations.</div>
+        <div class="interp-langs"><span class="lang-tag">Thai</span><span class="lang-tag">English</span><span class="lang-tag">German</span><span class="lang-tag">French</span></div>
+        <div class="interp-specs"><span class="spec-tag">Cardiology</span><span class="spec-tag">General Surgery</span></div>
+        <div class="interp-footer"><div class="interp-price">THB 1,600 <span>/session</span></div><a href="https://v0-medical-consultation-booking.vercel.app/interpreters" class="btn-book-interp">Book</a></div>
+      </div>
+
+      <div class="interp-card">
+        <div class="interp-top">
+          <div class="interp-avatar" style="background:#be123c">PR</div>
+          <div><div class="interp-name">Pimchanok Rattana</div><div class="interp-meta">1,120 sessions</div><div class="interp-rating"><span class="star">★</span> 4.9 <span style="color:#bbb">(378 reviews)</span></div></div>
+        </div>
+        <div class="interp-bio">Expert in modern and traditional Thai medicine. Bridges communication between traditional healers and international patients.</div>
+        <div class="interp-langs"><span class="lang-tag">Thai</span><span class="lang-tag">English</span><span class="lang-tag">Vietnamese</span><span class="lang-tag">Lao</span></div>
+        <div class="interp-specs"><span class="spec-tag">Traditional Medicine</span><span class="spec-tag">Wellness</span></div>
+        <div class="interp-footer"><div class="interp-price">THB 1,400 <span>/session</span></div><a href="https://v0-medical-consultation-booking.vercel.app/interpreters" class="btn-book-interp">Book</a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WELLBEING PROVIDERS -->
+<section class="section section-gray">
+  <div class="container">
+    <div class="section-header-row">
+      <div><h2 style="font-size:26px;font-weight:600;">Wellbeing Providers</h2><p style="font-size:14px;color:#666;margin-top:6px;">Explore specialized wellness and support providers</p></div>
+      <a href="https://www.arokago.com/providers" class="link-all">View All Providers →</a>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active">Well Hotels</button>
+      <button class="tab-btn">Spa &amp; Wellness Centers</button>
+      <button class="tab-btn">Health &amp; Travel Insurers</button>
+      <button class="tab-btn">Facilitators</button>
+      <button class="tab-btn">Laboratories</button>
+    </div>
+    <div class="provider-grid">
+      <a href="https://www.arokago.com/providers/river-kwai-village-hotel" class="provider-card">
+        <div class="provider-card-img"><img src="https://backend.arokago.com/media/hospitals/featured/510_gallery_atmosphere_20161026074920_auto_x2.png" alt="River Kwai" onerror="this.src='https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=400&q=70'"/><span class="verified-tag">✓ Verified</span></div>
+        <div class="provider-card-body"><div class="provider-card-name">River Kwai Village Hotel</div><div class="provider-card-loc">📍 Kanchanaburi, Thailand</div></div>
+      </a>
+      <a href="https://www.arokago.com/providers/aonang-princeville-villa-resort-spa" class="provider-card">
+        <div class="provider-card-img"><img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=400&q=70" alt="Aonang Princeville"/><span class="verified-tag">✓ Verified</span></div>
+        <div class="provider-card-body"><div class="provider-card-name">AONANG PRINCEVILLE Villa Resort &amp; Spa</div><div class="provider-card-loc">📍 Krabi, Thailand</div></div>
+      </a>
+      <a href="https://www.arokago.com/providers/the-grand-fourwings-convention" class="provider-card">
+        <div class="provider-card-img"><img src="https://backend.arokago.com/media/hospitals/featured/grandfourwings-home-1.jpg" alt="Grand Fourwings" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=70'"/><span class="verified-tag">✓ Verified</span></div>
+        <div class="provider-card-body"><div class="provider-card-name">The Grand Fourwings Convention</div><div class="provider-card-loc">📍 Bangkok, Thailand</div></div>
+      </a>
+      <a href="https://www.arokago.com/providers/silom-serene-hotel" class="provider-card">
+        <div class="provider-card-img"><img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&q=70" alt="Silom Serene"/><span class="verified-tag">✓ Verified</span></div>
+        <div class="provider-card-body"><div class="provider-card-name">Silom Serene Hotel</div><div class="provider-card-loc">📍 Bangkok, Thailand</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header-row">
+      <div><h2 style="font-size:26px;font-weight:600;">Popular Destinations</h2><p style="font-size:14px;color:#666;margin-top:6px;">Explore top medical tourism destinations</p></div>
+      <a href="https://www.arokago.com/providers" class="link-all">View All Providers →</a>
+    </div>
+    <div class="dest-grid">
+      <a href="https://www.arokago.com/providers?query=Bangkok" class="dest-card"><img src="https://backend.arokago.com/media/filer_public/bc/19/bc19df2e-dffe-4b50-bd13-1462abd8b3b1/bangkok.jpg" alt="Bangkok" onerror="this.src='https://images.unsplash.com/photo-1508009603885-50cf7c8dd0d5?w=500&q=70'"/><div class="dest-overlay"></div><div class="dest-info"><div class="dest-name">Bangkok</div><div class="dest-count">130 providers</div></div></a>
+      <a href="https://www.arokago.com/providers?query=Phuket" class="dest-card"><img src="https://backend.arokago.com/media/filer_public/3e/7e/3e7ec911-c1f8-406f-a6d7-0a825fb4d8e4/phuket.jpg" alt="Phuket" onerror="this.src='https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?w=400&q=70'"/><div class="dest-overlay"></div><div class="dest-info"><div class="dest-name">Phuket</div><div class="dest-count">7 providers</div></div></a>
+      <a href="https://www.arokago.com/providers?query=Chiang%20Mai" class="dest-card"><img src="https://backend.arokago.com/media/filer_public/4a/d7/4ad7fd51-289f-4084-ab73-bae198f91ad5/chiang_mai.jpg" alt="Chiang Mai" onerror="this.src='https://images.unsplash.com/photo-1598935898639-81586f7d2129?w=400&q=70'"/><div class="dest-overlay"></div><div class="dest-info"><div class="dest-name">Chiang Mai</div><div class="dest-count">5 providers</div></div></a>
+      <a href="https://www.arokago.com/providers?query=Krabi" class="dest-card"><img src="https://backend.arokago.com/media/filer_public/55/b2/55b25d8f-2d6b-45bf-8f0a-b84f112b0ae5/krabi.jpg" alt="Krabi" onerror="this.src='https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=400&q=70'"/><div class="dest-overlay"></div><div class="dest-info"><div class="dest-name">Krabi</div><div class="dest-count">4 providers</div></div></a>
+      <a href="https://www.arokago.com/providers?query=Pattaya" class="dest-card"><img src="https://backend.arokago.com/media/filer_public/3c/e9/3ce9d4ee-5e39-49ec-b880-1085a0224a26/chonburi.jpg" alt="Pattaya" onerror="this.src='https://images.unsplash.com/photo-1549180030-48bf079fb38a?w=400&q=70'"/><div class="dest-overlay"></div><div class="dest-info"><div class="dest-name">Pattaya</div><div class="dest-count">6 providers</div></div></a>
+      <a href="https://www.arokago.com/providers?query=Hua%20Hin" class="dest-card"><img src="https://backend.arokago.com/media/filer_public/4c/75/4c756540-7ed1-42e8-bd4d-e352d2ea51b6/hua-hin-city.jpg" alt="Hua Hin" onerror="this.src='https://images.unsplash.com/photo-1559628233-100c798642d4?w=400&q=70'"/><div class="dest-overlay"></div><div class="dest-info"><div class="dest-name">Hua Hin</div><div class="dest-count">2 providers</div></div></a>
+      <a href="https://www.arokago.com/providers?query=Samui" class="dest-card"><img src="https://backend.arokago.com/media/filer_public/50/d3/50d3d3bf-9114-481b-8fd0-58853a61b0f2/samui.jpg" alt="Samui" onerror="this.src='https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=400&q=70'"/><div class="dest-overlay"></div><div class="dest-info"><div class="dest-name">Samui</div><div class="dest-count">2 providers</div></div></a>
+      <a href="https://www.arokago.com/providers?query=Hat%20Yai" class="dest-card"><img src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=400&q=70" alt="Hat Yai"/><div class="dest-overlay"></div><div class="dest-info"><div class="dest-name">Hat Yai</div><div class="dest-count">3 providers</div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="section section-gray">
+  <div class="container">
+    <div class="section-header-row">
+      <div><h2 style="font-size:26px;font-weight:600;">From Our Blog</h2><p style="font-size:14px;color:#666;margin-top:6px;">Latest insights and updates from the medical tourism world</p></div>
+      <a href="https://www.arokago.com/articles" class="link-all">View All Articles →</a>
+    </div>
+    <div class="blog-grid">
+      <a href="https://www.arokago.com/articles/songkran-warning-how-to-prevent-and-handle-shoe-suction-injuries-during-water-festival-celebrations" class="blog-card"><img src="https://backend.arokago.com/media/uploads/Shoe_Suction.png" alt="" onerror="this.src='https://images.unsplash.com/photo-1559339352-11d035aa65de?w=400&q=70'"/><div class="blog-card-body"><div class="blog-meta">April 14, 2026 · ArokaGO · Travel</div><div class="blog-title">Songkran Warning: How to Prevent and Handle "Shoe Suction" Injuries During Water Festival Celebrations</div></div></a>
+      <a href="https://www.arokago.com/articles/office-syndrome-a-common-health-problem-among-modern-workers" class="blog-card"><img src="https://backend.arokago.com/media/uploads/office_syndrome_2.png" alt="" onerror="this.src='https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=400&q=70'"/><div class="blog-card-body"><div class="blog-meta">April 14, 2026 · Pitsanuvej Phichit Hospital</div><div class="blog-title">Office Syndrome: A Common Health Problem Among Modern Workers</div></div></a>
+      <a href="https://www.arokago.com/articles/revolutionary-health-trends-in-2025" class="blog-card"><img src="https://backend.arokago.com/media/uploads/trends_of_2025.png" alt="" onerror="this.src='https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&q=70'"/><div class="blog-card-body"><div class="blog-meta">April 14, 2026 · MedPark Hospital</div><div class="blog-title">Revolutionary Health Trends in 2025</div></div></a>
+      <a href="https://www.arokago.com/articles/depression-checklist" class="blog-card"><img src="https://backend.arokago.com/media/uploads/Depression.png" alt="" onerror="this.src='https://images.unsplash.com/photo-1527613426441-4da17471b66d?w=400&q=70'"/><div class="blog-card-body"><div class="blog-meta">April 14, 2026 · Thainakarin Hospital</div><div class="blog-title">Depression Checklist</div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header-row">
+      <div><h2 style="font-size:26px;font-weight:600;">Latest Healthcare News</h2><p style="font-size:14px;color:#666;margin-top:6px;">Stay informed with the latest healthcare news</p></div>
+      <a href="https://www.arokago.com/news" class="link-all">View All News →</a>
+    </div>
+    <div class="news-list">
+      <a href="https://www.arokago.com/news/thailand-ranks-among-worlds-top-plastic-surgery-destinations-reinforcing-its-strength-in-medical-tourism" class="news-item">
+        <img src="https://backend.arokago.com/media/uploads/Thailand_Ranks_Among_Worlds_Top_Plastic_Surgery_Destinations.png" alt="" onerror="this.src='https://images.unsplash.com/photo-1581595219315-a187dd40c322?w=200&q=70'"/>
+        <div><div class="news-cat">Medical and Wellness Tourism</div><div class="news-title">Thailand Ranks Among World's Top Plastic Surgery Destinations, Reinforcing Its Strength in Medical Tourism</div><div class="news-excerpt">Thailand has ranked 6th among the world's top 10 countries for plastic surgery, highlighting its ability to balance high-quality care with competitive pricing.</div></div>
+      </a>
+      <a href="https://www.arokago.com/news/arokago-joins-thailand-health-excellence-2026-a-national-initiative-supported-by-the-tourism-authority-of-thailand-tat" class="news-item">
+        <img src="https://backend.arokago.com/media/uploads/ArokaGo_Holistic_Health_Revolution_for_Longevity_-_2026-04-16T173751.069.png" alt="" onerror="this.src='https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=200&q=70'"/>
+        <div><div class="news-cat">Medical and Wellness Tourism</div><div class="news-title">ArokaGO Joins Thailand Health Excellence 2026, Supported by the Tourism Authority of Thailand (TAT)</div><div class="news-excerpt">ArokaGO joins Thailand Health Excellence 2026: The Next Chapter of Global Healing, a strategic national initiative supported by TAT.</div></div>
+      </a>
+      <a href="https://www.arokago.com/news/thailand-to-host-amazing-thailand-health-wellness-trade-meet-2026-strengthening-global-wellness-hub-ambition" class="news-item">
+        <img src="https://backend.arokago.com/media/uploads/ArokaGo_Holistic_Health_Revolution_for_Longevity_-_2026-04-16T171857.096.png" alt="" onerror="this.src='https://images.unsplash.com/photo-1498049794561-7780e7231661?w=200&q=70'"/>
+        <div><div class="news-cat">Medical and Wellness Tourism</div><div class="news-title">Thailand to Host Amazing Thailand Health &amp; Wellness Trade Meet 2026</div><div class="news-excerpt">TAT is intensifying its push into wellness tourism with the upcoming Amazing Thailand Health &amp; Wellness Trade Meet 2026, set for April 23, 2026 in Bangkok.</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ V0 FEATURE 3: ONBOARDING / GET STARTED ═══ -->
+<section class="section section-gray">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:32px;">
+      <h2 style="font-size:26px;font-weight:600;">Complete Your Profile</h2>
+      <p style="font-size:14px;color:#666;margin-top:6px;max-width:440px;margin-left:auto;margin-right:auto;">Select your role to get started with a personalized onboarding experience.</p>
+    </div>
+    <div class="onboard-grid">
+      <a href="https://v0-medical-consultation-booking.vercel.app/onboarding" class="onboard-card">
+        <div class="onboard-icon">🏥</div>
+        <div class="onboard-title">Patient / User</div>
+        <div class="onboard-desc">I am looking for medical care in Thailand. Set up your health profile, travel preferences, and insurance details.</div>
+      </a>
+      <div class="onboard-card" id="providerCard" onclick="toggleProviderChat()" style="cursor:pointer;">
+        <div class="onboard-icon">🩺</div>
+        <div class="onboard-title">Medical Provider</div>
+        <div class="onboard-desc">I am a hospital, clinic, or medical professional. Set up your practice details, credentials, and services.</div>
+      </div>
+    </div>
+    <div class="onboard-secure">🔒 Your data is secure and encrypted</div>
+
+    <!-- Provider chat — hidden until Medical Provider card is clicked -->
+    <div id="providerChatPanel" style="display:none; margin-top:32px; max-width:700px; margin-left:auto; margin-right:auto;">
+      <div class="chat-widget" style="border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.1);">
+        <div class="chat-header" style="background:#009688; padding:14px 18px; display:flex; align-items:center; gap:10px;">
+          <div class="chat-avatar" style="width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;">🩺</div>
+          <div>
+            <div class="chat-header-name" style="font-size:14px;font-weight:600;color:#fff;">ArokaGO Medical Advisor</div>
+            <div class="chat-header-status" style="font-size:11px;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:4px;">
+              <span style="display:inline-block;width:6px;height:6px;background:#4caf50;border-radius:50%;"></span> Online — Provider Support
+            </div>
+          </div>
+          <button onclick="toggleProviderChat()" style="margin-left:auto;background:rgba(255,255,255,0.15);border:none;color:#fff;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:12px;">✕ Close</button>
+        </div>
+        <div class="chat-messages" id="provChatMessages" style="padding:16px;display:flex;flex-direction:column;gap:12px;height:240px;overflow-y:auto;background:#fafafa;">
+          <div class="msg-bot">
+            <div class="msg-bubble">Hello! Welcome to ArokaGO for Providers. I can help you set up your practice profile, manage appointments, and connect with international patients. How can I assist you today?</div>
+            <div class="msg-time">Just now · arokago.com</div>
+          </div>
+        </div>
+        <div class="chat-input-row" style="padding:12px 14px;border-top:1px solid #f0f0f0;display:flex;gap:8px;background:#fff;">
+          <input class="chat-input" id="provChatInput" type="text" placeholder="e.g. I want to list my clinic on ArokaGO…" onkeydown="if(event.key==='Enter')sendProvMsg()"/>
+          <button class="chat-send" onclick="sendProvMsg()">Send</button>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:14px;">
+        <a href="https://v0-medical-consultation-booking.vercel.app/onboarding" class="btn-signup" style="display:inline-block;">Continue Full Onboarding →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP DOWNLOAD -->
+<div class="app-banner">
+  <div class="app-inner">
+    <div class="app-text">
+      <h2>Download the ArokaGO App</h2>
+      <p>Access Thailand's full healthcare network on iOS and Android. Book, consult, and manage your care from anywhere in the world.</p>
+      <div class="app-store-btns">
+        <a href="https://apps.apple.com/th/app/arokago/id6746113221" class="store-btn" target="_blank">
+          <div class="store-btn-icon">🍎</div>
+          <div><div class="store-btn-sm">Download on the</div><div class="store-btn-lg">App Store</div></div>
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.arokago.mobileapp" class="store-btn" target="_blank">
+          <div class="store-btn-icon">▶</div>
+          <div><div class="store-btn-sm">Get it on</div><div class="store-btn-lg">Google Play</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="https://www.arokago.com/_next/image?url=%2Fimages%2Flogo%2Fno-bg%2Flogo-color-removebg.png&w=384&q=75" alt="ArokaGO"/>
+      <p>Your trusted medical tourism platform. Connect with world-class healthcare providers in Thailand.</p>
+    </div>
+    <div class="footer-col">
+      <h4>For Patients</h4>
+      <ul>
+        <li><a href="https://www.arokago.com/providers">Search Providers</a></li>
+        <li><a href="https://v0-medical-consultation-booking.vercel.app/chat">Start Consultation</a></li>
+        <li><a href="https://www.arokago.com/auth/signin">Login</a></li>
+        <li><a href="https://v0-medical-consultation-booking.vercel.app/onboarding">Register as Patient</a></li>
+        <li><a href="https://v0-medical-consultation-booking.vercel.app/interpreters">Medical Interpreters</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>For Providers</h4>
+      <ul>
+        <li><a href="https://www.arokago.com/auth/signin">Dashboard</a></li>
+        <li><a href="https://www.arokago.com/auth/signin">Appointments</a></li>
+        <li><a href="https://v0-medical-consultation-booking.vercel.app/chat">Provider Chat</a></li>
+        <li><a href="https://www.arokago.com/auth/signin">Login</a></li>
+        <li><a href="https://v0-medical-consultation-booking.vercel.app/onboarding">Join as Provider</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact Us</h4>
+      <ul>
+        <li><a href="https://goo.gl/maps/V6rz8iZPqu5Tcu156">Bangkok, Thailand</a></li>
+        <li><a href="tel:+66658294562">+66 65 829 4562</a></li>
+        <li><a href="mailto:contact@arokago.com">contact@arokago.com</a></li>
+        <li><a href="https://www.arokago.com/legal#privacy">Privacy Policy</a></li>
+        <li><a href="https://www.arokago.com/legal#disclaimer">Disclaimer</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 ArokaGO. All rights reserved.</span>
+    <div class="social-row">
+      <a href="https://www.facebook.com/arokagoth" target="_blank">Facebook</a>
+      <a href="https://www.instagram.com/arokago" target="_blank">Instagram</a>
+      <a href="https://www.youtube.com/@arokago" target="_blank">YouTube</a>
+      <a href="https://www.tiktok.com/@arokago" target="_blank">TikTok</a>
+      <a href="https://www.linkedin.com/company/arokago" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── TABS ───────────────────────────────
+document.querySelectorAll('.tabs').forEach(tabs => {
+  tabs.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabs.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+});
+
+// ─── ACCREDITATION FILTER ────────────────
+document.querySelectorAll('.accred-badge').forEach(badge => {
+  badge.addEventListener('click', () => {
+    document.querySelectorAll('.accred-badge').forEach(b => b.classList.remove('active'));
+    badge.classList.add('active');
+    const filter = badge.dataset.accred;
+    document.querySelectorAll('.provider-card[data-accred]').forEach(card => {
+      card.style.display = (filter === 'all' || card.dataset.accred.includes(filter)) ? '' : 'none';
+    });
+  });
+});
+function showAccredTip(el, title, body) {
+  const tip = document.getElementById('accredTooltip');
+  document.getElementById('accredTipTitle').textContent = title;
+  document.getElementById('accredTipBody').textContent  = body;
+  const r = el.getBoundingClientRect();
+  let left = r.left;
+  if (left + 260 > window.innerWidth) left = window.innerWidth - 264;
+  tip.style.left = left + 'px';
+  tip.style.top  = (r.bottom + 8) + 'px';
+  tip.classList.add('show');
+}
+function hideAccredTip() { document.getElementById('accredTooltip').classList.remove('show'); }
+
+// ─── CURRENCY CONVERTER ──────────────────
+// Tries multiple free CORS-enabled FX APIs, then falls back to a bundled
+// offline rate table so the converter always returns a usable number.
+const rateCache = {};
+const FALLBACK_RATES = {
+  USD: 0.028, EUR: 0.026, GBP: 0.022, AUD: 0.042, JPY: 4.30, CNY: 0.20,
+  SGD: 0.037, HKD: 0.22, INR: 2.35, AED: 0.103, KRW: 38.5, CAD: 0.038,
+  CHF: 0.024, MYR: 0.125
+};
+
+async function fetchRateLive(to) {
+  // Primary: Frankfurter (ECB data, CORS-enabled)
+  try {
+    const r = await fetch(`https://api.frankfurter.app/latest?from=THB&to=${to}`);
+    if (r.ok) {
+      const d = await r.json();
+      if (d && d.rates && typeof d.rates[to] === 'number') return d.rates[to];
+    }
+  } catch (e) { /* try next */ }
+  // Fallback: open.er-api.com (free, CORS-enabled)
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/THB');
+    if (r.ok) {
+      const d = await r.json();
+      if (d && d.rates && typeof d.rates[to] === 'number') return d.rates[to];
+    }
+  } catch (e) { /* fall through */ }
+  return null;
+}
+
+async function convertCurrency() {
+  const thb = parseFloat(document.getElementById('thbInput').value);
+  const to  = document.getElementById('currencyTo').value;
+  const res = document.getElementById('currencyResult');
+  const rat = document.getElementById('currencyRate');
+  if (!thb || thb <= 0) { res.textContent = '—'; rat.textContent = ''; return; }
+
+  let rate = rateCache[to];
+  let isLive = rateCache[to + ':live'] === true;
+
+  if (rate == null) {
+    rate = await fetchRateLive(to);
+    if (rate != null) {
+      rateCache[to] = rate;
+      rateCache[to + ':live'] = true;
+      isLive = true;
+    } else if (FALLBACK_RATES[to] != null) {
+      rate = FALLBACK_RATES[to];
+      rateCache[to] = rate;
+      rateCache[to + ':live'] = false;
+      isLive = false;
+    }
+  }
+
+  if (rate == null) { res.textContent = 'Unavailable'; rat.textContent = ''; return; }
+
+  const amount = (thb * rate).toLocaleString('en-US', { maximumFractionDigits: 2 });
+  const syms   = {USD:'$',EUR:'€',GBP:'£',AUD:'A$',JPY:'¥',CNY:'¥',SGD:'S$',HKD:'HK$',INR:'₹',AED:'AED ',KRW:'₩',CAD:'C$',CHF:'CHF ',MYR:'RM'};
+  res.textContent = (syms[to] || '') + amount + ' ' + to;
+  rat.textContent = `1 THB = ${rate.toFixed(5)} ${to}${isLive ? '' : ' (offline est.)'}`;
+}
+
+// ─── MEDICAL TERM HIGHLIGHTER ────────────
+const MEDICAL_TERMS = {
+  'orthopedic':    { simple: 'Relating to bones, joints, and muscles — e.g. knee replacement or spine surgery.', tag: 'orthopedics' },
+  'orthopedics':   { simple: 'The branch of medicine dealing with bones, joints, and muscles.', tag: 'orthopedics' },
+  'cardiology':    { simple: 'Study and treatment of heart conditions — like heart disease or arrhythmia.', tag: 'cardiology' },
+  'cardiac':       { simple: 'Relating to the heart.', tag: 'cardiology' },
+  'oncology':      { simple: 'The branch of medicine that studies and treats cancer.', tag: 'cancer' },
+  'neurology':     { simple: 'Study and treatment of brain, spinal cord, and nerve disorders.', tag: 'neurology' },
+  'dermatology':   { simple: 'Medicine focused on skin, hair, and nail conditions.', tag: 'skin' },
+  'obstetrics':    { simple: 'Medical care during pregnancy, childbirth, and after delivery.', tag: 'pregnancy' },
+  'pediatrics':    { simple: 'Medical care for infants, children, and adolescents.', tag: 'children' },
+  'ophthalmology': { simple: 'Medicine focused on eye health and vision disorders.', tag: 'eyes' },
+  'rehabilitation':{ simple: 'Therapy helping patients recover movement and strength after injury or surgery.', tag: 'rehabilitation' },
+  'cosmetic surgery':{ simple: 'Surgery to improve appearance — like rhinoplasty or liposuction.', tag: 'cosmetic' },
+  'laparoscopic':  { simple: 'Minimally invasive surgery using a tiny camera through small cuts — less scarring.', tag: 'surgery' },
+  'anesthesia':    { simple: 'Medication that prevents pain during surgery. Local numbs one area; general puts you to sleep.', tag: 'surgery' },
+  'hypertension':  { simple: 'High blood pressure — when blood force against artery walls is consistently too high.', tag: 'hypertension' },
+  'diabetes':      { simple: 'A condition where blood sugar is too high due to insulin problems.', tag: 'diabetes' },
+  'biopsy':        { simple: 'Removing a small tissue sample to test for disease or cancer under a microscope.', tag: 'biopsy' },
+  'mri':           { simple: 'Magnetic Resonance Imaging — a scan that creates detailed images of inside the body using magnets.', tag: 'mri' },
+  'implant':       { simple: 'An artificial device placed inside the body — like a dental implant or joint replacement.', tag: 'implant' },
+};
+
+function highlightTerms(el) {
+  const terms  = Object.keys(MEDICAL_TERMS).sort((a,b) => b.length - a.length);
+  const regex  = new RegExp('\\b(' + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|') + ')\\b', 'gi');
+  el.querySelectorAll('.msg-bubble').forEach(bubble => {
+    const walker = document.createTreeWalker(bubble, NodeFilter.SHOW_TEXT);
+    const nodes  = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => {
+      if (node.parentElement.classList.contains('med-term')) return;
+      regex.lastIndex = 0;
+      if (!regex.test(node.textContent)) return;
+      regex.lastIndex = 0;
+      const wrapper = document.createElement('span');
+      wrapper.innerHTML = node.textContent.replace(regex, m => {
+        const data = MEDICAL_TERMS[m.toLowerCase()];
+        if (!data) return m;
+        const safe  = data.simple.replace(/'/g, "&#39;");
+        return `<span class="med-term" onclick="showTermPopup(event,'${m}','${safe}','${data.tag}')">${m}</span>`;
+      });
+      node.replaceWith(wrapper);
+    });
+  });
+}
+
+const termPopup = document.getElementById('termPopup');
+function showTermPopup(e, term, simple, tag) {
+  e.stopPropagation();
+  document.getElementById('termTitle').textContent = term;
+  document.getElementById('termBody').textContent  = simple;
+  document.getElementById('termLink').href = `https://www.arokago.com/articles/tag/${tag}`;
+  const r = e.target.getBoundingClientRect();
+  let left = r.left, top = r.bottom + 8;
+  if (left + 292 > window.innerWidth) left = window.innerWidth - 296;
+  if (top + 160 > window.innerHeight) top = r.top - 168;
+  termPopup.style.left = left + 'px';
+  termPopup.style.top  = top  + 'px';
+  termPopup.classList.add('show');
+}
+document.addEventListener('click', () => termPopup.classList.remove('show'));
+
+// ─── AI CHAT ─────────────────────────────
+// The provider AI assistant runs a local intent engine (ported from the
+// Next.js chat-interface.tsx in the zipped reference build). Running client-
+// side means no API key is shipped in the page and no CORS/auth failure can
+// take the assistant offline — which is what killed Q&A, price estimates and
+// booking in the previous build.
+let currentProvider = '', currentProviderLoc = '';
+let isLoading = false;
+
+function escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function ts()    { return new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
+function scrollC(){ const m=document.getElementById('chatMessages'); m.scrollTop=m.scrollHeight; }
+
+function addBotMsg(html) {
+  const m = document.getElementById('chatMessages');
+  m.innerHTML += `<div class="msg-bot"><div class="msg-bubble">${html}</div><div class="msg-time">${ts()} · ${escH(currentProvider)}</div></div>`;
+  scrollC();
+  highlightTerms(m.lastElementChild);
+}
+function addUserMsg(text) {
+  const m = document.getElementById('chatMessages');
+  m.innerHTML += `<div class="msg-user"><div class="msg-bubble">${escH(text)}</div><div class="msg-time">${ts()}</div></div>`;
+  scrollC();
+}
+function showTyping() {
+  document.getElementById('chatMessages').innerHTML += `<div class="msg-bot" id="ti"><div class="msg-bubble" style="color:#bbb;font-size:22px;letter-spacing:3px">•••</div></div>`;
+  scrollC();
+}
+function removeTyping() { const t=document.getElementById('ti'); if(t) t.remove(); }
+function setDisabled(v) {
+  document.getElementById('chatInput').disabled = v;
+  const b = document.getElementById('chatSendBtn');
+  b.disabled = v; b.style.opacity = v ? '0.5' : '1';
+}
+
+function renderPriceCard(inp) {
+  const rows = inp.items.map(i =>
+    `<tr style="border-bottom:1px solid #e8f5f3">
+      <td style="padding:8px 14px;font-size:13px;color:#333">${escH(i.name)}</td>
+      <td style="padding:8px 14px;text-align:right;font-size:13px;font-weight:700;color:#009688;white-space:nowrap">${escH(i.price)}</td>
+    </tr>`
+  ).join('');
+  return `<div style="border:1.5px solid #b2dfdb;border-radius:10px;overflow:hidden;margin-top:6px">
+    <div style="background:#009688;padding:10px 14px;color:#fff;font-size:13px;font-weight:600">💰 Price Estimate — ${escH(inp.procedure)}</div>
+    <table style="width:100%;border-collapse:collapse;background:#fff">${rows}</table>
+    <div style="padding:9px 14px;background:#e8f5e9;font-size:11px;color:#555;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+      <span>⚠️ Estimates only. Final cost confirmed at consultation.</span>
+      <a href="#currency-bar" onclick="setTimeout(()=>document.getElementById('thbInput').focus(),100)" style="color:#009688;font-weight:600;font-size:11px;text-decoration:none;white-space:nowrap">💱 Convert ↑</a>
+    </div>
+  </div>`;
+}
+
+function renderBookingBtn(svc) {
+  const s = (svc||'').replace(/"/g,'&quot;');
+  return `<div style="margin-top:8px">
+    <button onclick="openBooking(\`${s}\`)" style="width:100%;background:#009688;color:#fff;border:none;border-radius:8px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit" onmouseover="this.style.background='#00796b'" onmouseout="this.style.background='#009688'">
+      📅 Book a Consultation at ${escH(currentProvider)}
+    </button>
+  </div>`;
+}
+
+function openChat(name, loc, icon) {
+  currentProvider = name; currentProviderLoc = loc;
+  document.getElementById('modalProviderName').textContent = name;
+  document.getElementById('modalProviderLoc').textContent  = loc;
+  document.getElementById('modalAvatar').textContent       = icon;
+  document.getElementById('chatMessages').innerHTML = '';
+  addBotMsg(`Hello! I'm the AI assistant for <strong>${escH(name)}</strong>.<br><br>I can help you with:<br>
+    <span style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+      <span>💰 <strong>Price estimates</strong> for any treatment</span>
+      <span>📅 <strong>Book a consultation</strong> appointment</span>
+      <span>🏥 <strong>Services &amp; specialties</strong> available — cardiology, orthopedics, oncology, dermatology, obstetrics, pediatrics, ophthalmology, rehabilitation</span>
+      <span>✈️ <strong>International patient</strong> support &amp; logistics</span>
+    </span><br>How can I help you today?`);
+  document.getElementById('chatModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => document.getElementById('chatInput').focus(), 150);
+}
+function closeChat() {
+  document.getElementById('chatModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─── LOCAL INTENT ENGINE ─────────────────
+// Matches a user message to an intent + optional procedure so the assistant
+// can reply with text, a price-estimate card, and/or a booking button — the
+// same outputs the old tool-use flow was supposed to render.
+const PROCEDURES = {
+  'knee replacement': {
+    keys: ['knee','joint replacement','knee surgery'],
+    label: 'Knee Replacement Surgery',
+    items: [
+      { name: 'Orthopedic consultation & imaging (MRI)', price: 'THB 8,000 – 15,000' },
+      { name: 'Total knee replacement (single knee)',    price: 'THB 300,000 – 450,000' },
+      { name: 'Hospital stay (4–5 nights, private room)', price: 'THB 40,000 – 70,000' },
+      { name: 'Rehabilitation programme (2 weeks)',      price: 'THB 25,000 – 45,000' }
+    ]
+  },
+  'dental implant': {
+    keys: ['dental','dentist','implant','tooth','teeth','crown','veneer'],
+    label: 'Dental Implant (single tooth)',
+    items: [
+      { name: 'Initial consultation & 3D CBCT scan',  price: 'THB 2,500 – 5,000' },
+      { name: 'Implant fixture (titanium, Swiss/Korean)', price: 'THB 45,000 – 85,000' },
+      { name: 'Abutment + porcelain crown',           price: 'THB 20,000 – 35,000' },
+      { name: 'Bone grafting (if required)',          price: 'THB 15,000 – 40,000' }
+    ]
+  },
+  'cardiac': {
+    keys: ['heart','cardiac','cardiology','bypass','angioplasty','stent'],
+    label: 'Cardiac Care',
+    items: [
+      { name: 'Cardiology consultation + ECG',        price: 'THB 3,500 – 6,500' },
+      { name: 'Echocardiogram',                       price: 'THB 5,000 – 9,000' },
+      { name: 'Coronary angiogram',                   price: 'THB 60,000 – 110,000' },
+      { name: 'Angioplasty with single stent',        price: 'THB 350,000 – 550,000' }
+    ]
+  },
+  'cosmetic surgery': {
+    keys: ['cosmetic','plastic','rhinoplasty','nose job','liposuction','facelift','breast','aesthetic'],
+    label: 'Cosmetic Surgery',
+    items: [
+      { name: 'Consultation with plastic surgeon',    price: 'THB 1,500 – 3,500' },
+      { name: 'Rhinoplasty (nose reshaping)',         price: 'THB 90,000 – 180,000' },
+      { name: 'Liposuction (per area)',               price: 'THB 60,000 – 120,000' },
+      { name: 'Breast augmentation (implants)',       price: 'THB 150,000 – 280,000' }
+    ]
+  },
+  'ivf': {
+    keys: ['ivf','fertility','fertil','egg','embryo'],
+    label: 'IVF Fertility Programme',
+    items: [
+      { name: 'Fertility consultation + hormone panel', price: 'THB 6,000 – 12,000' },
+      { name: 'Ovarian stimulation medication (1 cycle)', price: 'THB 60,000 – 100,000' },
+      { name: 'Egg retrieval + ICSI fertilisation',   price: 'THB 180,000 – 260,000' },
+      { name: 'Embryo transfer + monitoring',         price: 'THB 40,000 – 70,000' }
+    ]
+  },
+  'oncology': {
+    keys: ['cancer','oncology','tumor','tumour','chemo','radiation'],
+    label: 'Oncology Screening & Treatment',
+    items: [
+      { name: 'Oncology consultation',                price: 'THB 3,000 – 6,000' },
+      { name: 'Full-body PET-CT scan',                price: 'THB 45,000 – 70,000' },
+      { name: 'Biopsy + pathology',                   price: 'THB 20,000 – 45,000' },
+      { name: 'Chemotherapy (per cycle, varies)',     price: 'THB 30,000 – 150,000' }
+    ]
+  },
+  'general check-up': {
+    keys: ['check','checkup','physical','screening','general health','wellness'],
+    label: 'Executive Health Check-up',
+    items: [
+      { name: 'Consultation + full blood panel',      price: 'THB 4,500 – 8,000' },
+      { name: 'Chest X-ray + abdominal ultrasound',   price: 'THB 5,000 – 9,000' },
+      { name: 'Cardiac stress test (EST)',            price: 'THB 6,000 – 10,000' },
+      { name: 'MRI or CT add-on (optional)',          price: 'THB 15,000 – 35,000' }
+    ]
+  }
+};
+
+function detectProcedure(lower) {
+  let best = null, bestHits = 0;
+  for (const key in PROCEDURES) {
+    const p = PROCEDURES[key];
+    const hits = p.keys.filter(k => lower.includes(k)).length + (lower.includes(key) ? 1 : 0);
+    if (hits > bestHits) { best = key; bestHits = hits; }
+  }
+  return best;
+}
+
+function localAIResponse(text) {
+  const lower = text.toLowerCase();
+  const provider = currentProvider || 'our clinic';
+
+  const wantsPrice   = /\b(price|cost|fee|how much|expensive|budget|charge|rate)\b/.test(lower);
+  const wantsBooking = /\b(book|booking|schedule|appointment|consultation|reserve|slot)\b/.test(lower);
+
+  const procKey = detectProcedure(lower);
+  const proc    = procKey ? PROCEDURES[procKey] : null;
+
+  // PRICE intent — always render the card, offer a booking CTA too.
+  if (wantsPrice) {
+    const p = proc || PROCEDURES['general check-up'];
+    const leadIn = proc
+      ? `Here's a typical price range for <strong>${escH(p.label)}</strong> at ${escH(provider)}, based on published Thai private-hospital rates. Final pricing depends on your diagnostic workup and the treatment plan your specialist recommends.`
+      : `Happy to share indicative pricing. I've pulled up our most-requested programme — tell me the specific treatment (e.g. knee replacement, dental implant, rhinoplasty, IVF, cardiac care) and I'll narrow the estimate. `;
+    return {
+      text: leadIn,
+      priceCard: { procedure: p.label, items: p.items },
+      booking: p.label
+    };
+  }
+
+  // BOOKING intent
+  if (wantsBooking) {
+    const svc = proc ? proc.label : '';
+    return {
+      text: `Great — let's get your consultation at <strong>${escH(provider)}</strong> scheduled. Tap the button below to open the appointment form. Our international-patient team will confirm your slot (and any interpreter, transport, or visa-letter support you need) within 24 hours.`,
+      booking: svc
+    };
+  }
+
+  // Specific topic intents
+  if (/\b(service|specialt|department|treatment|offer|provide|what.*do)\b/.test(lower)) {
+    return { text: `${escH(provider)} covers a broad range of specialties — cardiology, orthopedics (including laparoscopic joint surgery), oncology, dermatology, obstetrics, pediatrics, ophthalmology, and rehabilitation. We also run executive health check-ups and cosmetic surgery programmes for international patients. Which area would you like to explore?` };
+  }
+  if (/\b(international|visa|flight|airport|hotel|accommodation|travel|transport)\b/.test(lower)) {
+    return { text: `We support international patients end-to-end: airport pickup, partner hotels within 10 minutes of ${escH(provider)}, English-speaking interpreters, and visa-letter assistance for longer stays. Share your arrival city and dates and the international-patient coordinator can put together a full itinerary — including rehabilitation and aftercare.` };
+  }
+  if (/\b(insurance|coverage|covered|claim|reimburse)\b/.test(lower)) {
+    return { text: `${escH(provider)} accepts most major international plans — Cigna Global, Bupa, Allianz Care, IMG, Aetna International — and offers direct-billing where the insurer supports it. For self-claim patients we issue fully itemised invoices suitable for reimbursement.` };
+  }
+  if (/\b(recovery|rehabilitation|aftercare|post[- ]?op|recover)\b/.test(lower)) {
+    return { text: `Rehabilitation is handled by our in-house team at ${escH(provider)} — typical post-op programmes run 1–3 weeks and combine physiotherapy, pain management, and wound care. For orthopedic and cardiac cases we coordinate ongoing rehabilitation at partner wellness resorts in Hua Hin or Chiang Mai.` };
+  }
+  if (/\b(anesthesia|anaesthes)\b/.test(lower)) {
+    return { text: `We use both local anesthesia (numbing one area) and general anesthesia (you are asleep) depending on the procedure. All anesthesia is supervised by a board-certified anesthesiologist, with full monitoring throughout surgery and recovery.` };
+  }
+  if (/\b(mri|ct|scan|biopsy|imaging|x[- ]?ray|ultrasound)\b/.test(lower)) {
+    return { text: `Diagnostic imaging at ${escH(provider)} includes MRI, CT, ultrasound, and X-ray on site, plus pathology for biopsy samples. Turnaround for most scans is the same day, and reports are prepared in English for international patients.` };
+  }
+  if (/^\s*(hi|hello|hey|hola|sawasdee|good (morning|afternoon|evening))\b/.test(lower)) {
+    return { text: `Hello! Thanks for reaching out to ${escH(provider)}. I can help with price estimates, booking a consultation, services offered, or international-travel logistics. What would you like to know?` };
+  }
+
+  // Fallback
+  return { text: `Thanks for your question about ${escH(provider)}. To give you the most useful answer, could you share a bit more — for example the treatment you're considering, whether you'd like a price estimate, or if you'd prefer to book a consultation? I can also help with insurance, travel logistics, or rehabilitation options.` };
+}
+
+async function sendMsg() {
+  if (isLoading) return;
+  const input = document.getElementById('chatInput');
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addUserMsg(text);
+  isLoading = true; setDisabled(true); showTyping();
+
+  // Small, human-feeling think delay.
+  await new Promise(r => setTimeout(r, 650 + Math.random() * 450));
+
+  const reply = localAIResponse(text);
+  removeTyping();
+
+  let extraHtml = '';
+  if (reply.priceCard) extraHtml += renderPriceCard(reply.priceCard);
+  if (reply.booking != null) extraHtml += renderBookingBtn(reply.booking);
+
+  const textHtml = reply.text ? `<span>${reply.text}</span>` : '';
+  const full = textHtml + (extraHtml ? `<div style="margin-top:${textHtml ? '10' : '0'}px">${extraHtml}</div>` : '');
+  if (full) {
+    const m = document.getElementById('chatMessages');
+    m.innerHTML += `<div class="msg-bot"><div class="msg-bubble">${full}</div><div class="msg-time">${ts()} · ${escH(currentProvider)}</div></div>`;
+    scrollC();
+    highlightTerms(m.lastElementChild);
+  }
+
+  isLoading = false; setDisabled(false);
+  document.getElementById('chatInput').focus();
+}
+
+// ─── BOOKING MODAL ───────────────────────
+function openBooking(svc) {
+  document.getElementById('bookingProviderTitle').textContent = `Book at ${currentProvider}`;
+  document.getElementById('bookingProviderSub').textContent   = currentProviderLoc;
+  document.getElementById('bookingModalBody').innerHTML = `
+    <div class="booking-field"><label>Full Name</label><input type="text" id="bkName" placeholder="Your full name"/></div>
+    <div class="booking-field"><label>Email</label><input type="email" id="bkEmail" placeholder="your@email.com"/></div>
+    <div class="booking-field"><label>Phone / WhatsApp</label><input type="text" id="bkPhone" placeholder="+1 234 567 8900"/></div>
+    <div class="booking-field"><label>Treatment / Service</label><input type="text" id="bkService" value="${escH(svc||'')}" placeholder="e.g. Dental implant consultation…"/></div>
+    <div class="booking-row">
+      <div class="booking-field"><label>Preferred Date</label><input type="date" id="bkDate"/></div>
+      <div class="booking-field"><label>Preferred Time</label>
+        <select id="bkTime"><option value="">Select time</option><option>09:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>01:00 PM</option><option>02:00 PM</option><option>03:00 PM</option><option>04:00 PM</option></select>
+      </div>
+    </div>
+    <div class="booking-field"><label>Additional Notes</label><textarea id="bkNotes" rows="3" placeholder="Medical history, special requirements…"></textarea></div>
+    <button class="booking-submit" onclick="submitBooking()">Confirm Appointment Request</button>`;
+  document.getElementById('bookingModal').classList.add('open');
+}
+function closeBooking() { document.getElementById('bookingModal').classList.remove('open'); }
+function submitBooking() {
+  const name  = document.getElementById('bkName').value.trim();
+  const email = document.getElementById('bkEmail').value.trim();
+  const svc   = document.getElementById('bkService').value.trim();
+  if (!name || !email || !svc) { alert('Please fill in name, email, and treatment.'); return; }
+  document.getElementById('bookingModalBody').innerHTML = `
+    <div class="booking-success">
+      <div class="success-icon">✅</div>
+      <h3>Appointment Requested!</h3>
+      <p>Your request at <strong>${escH(currentProvider)}</strong> has been submitted.<br><br>
+      Confirmation will be sent to <strong>${escH(email)}</strong> within 24 hours.</p>
+      <button onclick="closeBooking()" style="margin-top:20px;background:#009688;color:#fff;border:none;border-radius:8px;padding:11px 28px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">Done</button>
+    </div>`;
+  addBotMsg(`✅ Done! Your appointment at <strong>${escH(currentProvider)}</strong> is requested. Confirmation to <strong>${escH(email)}</strong> within 24 hours. Anything else I can help with?`);
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeChat(); closeBooking(); } });
+</script>
+<style>@keyframes dot{0%,80%,100%{opacity:.2}40%{opacity:1}}</style>
+</body>
+</html>
