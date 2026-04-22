@@ -855,25 +855,65 @@ function showAccredTip(el, title, body) {
 function hideAccredTip() { document.getElementById('accredTooltip').classList.remove('show'); }
 
 // ─── CURRENCY CONVERTER ──────────────────
+// Tries multiple free CORS-enabled FX APIs, then falls back to a bundled
+// offline rate table so the converter always returns a usable number.
 const rateCache = {};
+const FALLBACK_RATES = {
+  USD: 0.028, EUR: 0.026, GBP: 0.022, AUD: 0.042, JPY: 4.30, CNY: 0.20,
+  SGD: 0.037, HKD: 0.22, INR: 2.35, AED: 0.103, KRW: 38.5, CAD: 0.038,
+  CHF: 0.024, MYR: 0.125
+};
+
+async function fetchRateLive(to) {
+  // Primary: Frankfurter (ECB data, CORS-enabled)
+  try {
+    const r = await fetch(`https://api.frankfurter.app/latest?from=THB&to=${to}`);
+    if (r.ok) {
+      const d = await r.json();
+      if (d && d.rates && typeof d.rates[to] === 'number') return d.rates[to];
+    }
+  } catch (e) { /* try next */ }
+  // Fallback: open.er-api.com (free, CORS-enabled)
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/THB');
+    if (r.ok) {
+      const d = await r.json();
+      if (d && d.rates && typeof d.rates[to] === 'number') return d.rates[to];
+    }
+  } catch (e) { /* fall through */ }
+  return null;
+}
+
 async function convertCurrency() {
   const thb = parseFloat(document.getElementById('thbInput').value);
-  const to   = document.getElementById('currencyTo').value;
-  const res  = document.getElementById('currencyResult');
-  const rat  = document.getElementById('currencyRate');
+  const to  = document.getElementById('currencyTo').value;
+  const res = document.getElementById('currencyResult');
+  const rat = document.getElementById('currencyRate');
   if (!thb || thb <= 0) { res.textContent = '—'; rat.textContent = ''; return; }
-  try {
-    if (!rateCache[to]) {
-      const r = await fetch(`https://api.frankfurter.app/latest?from=THB&to=${to}`);
-      const d = await r.json();
-      rateCache[to] = d.rates[to];
+
+  let rate = rateCache[to];
+  let isLive = rateCache[to + ':live'] === true;
+
+  if (rate == null) {
+    rate = await fetchRateLive(to);
+    if (rate != null) {
+      rateCache[to] = rate;
+      rateCache[to + ':live'] = true;
+      isLive = true;
+    } else if (FALLBACK_RATES[to] != null) {
+      rate = FALLBACK_RATES[to];
+      rateCache[to] = rate;
+      rateCache[to + ':live'] = false;
+      isLive = false;
     }
-    const rate   = rateCache[to];
-    const amount = (thb * rate).toLocaleString('en-US', {maximumFractionDigits: 2});
-    const syms   = {USD:'$',EUR:'€',GBP:'£',AUD:'A$',JPY:'¥',CNY:'¥',SGD:'S$',HKD:'HK$',INR:'₹',AED:'AED ',KRW:'₩',CAD:'C$',CHF:'CHF ',MYR:'RM'};
-    res.textContent = (syms[to] || '') + amount + ' ' + to;
-    rat.textContent = `1 THB = ${rate.toFixed(5)} ${to}`;
-  } catch(e) { res.textContent = 'Unavailable'; rat.textContent = ''; }
+  }
+
+  if (rate == null) { res.textContent = 'Unavailable'; rat.textContent = ''; return; }
+
+  const amount = (thb * rate).toLocaleString('en-US', { maximumFractionDigits: 2 });
+  const syms   = {USD:'$',EUR:'€',GBP:'£',AUD:'A$',JPY:'¥',CNY:'¥',SGD:'S$',HKD:'HK$',INR:'₹',AED:'AED ',KRW:'₩',CAD:'C$',CHF:'CHF ',MYR:'RM'};
+  res.textContent = (syms[to] || '') + amount + ' ' + to;
+  rat.textContent = `1 THB = ${rate.toFixed(5)} ${to}${isLive ? '' : ' (offline est.)'}`;
 }
 
 // ─── MEDICAL TERM HIGHLIGHTER ────────────
@@ -940,28 +980,13 @@ function showTermPopup(e, term, simple, tag) {
 document.addEventListener('click', () => termPopup.classList.remove('show'));
 
 // ─── AI CHAT ─────────────────────────────
+// The provider AI assistant runs a local intent engine (ported from the
+// Next.js chat-interface.tsx in the zipped reference build). Running client-
+// side means no API key is shipped in the page and no CORS/auth failure can
+// take the assistant offline — which is what killed Q&A, price estimates and
+// booking in the previous build.
 let currentProvider = '', currentProviderLoc = '';
-let conversationHistory = [], isLoading = false;
-
-const TOOLS = [
-  {
-    name: 'show_price_estimate',
-    description: 'Show a price estimate card when user asks about cost, pricing, or fees for any treatment.',
-    input_schema: {
-      type: 'object',
-      properties: {
-        procedure: { type: 'string' },
-        items: { type: 'array', items: { type: 'object', properties: { name: {type:'string'}, price: {type:'string'} }, required: ['name','price'] } }
-      },
-      required: ['procedure','items']
-    }
-  },
-  {
-    name: 'show_booking_form',
-    description: 'Open booking form when user wants to book or schedule an appointment.',
-    input_schema: { type: 'object', properties: { suggested_service: { type: 'string' } }, required: [] }
-  }
-];
+let isLoading = false;
 
 function escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function ts()    { return new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}); }
@@ -1016,7 +1041,7 @@ function renderBookingBtn(svc) {
 }
 
 function openChat(name, loc, icon) {
-  currentProvider = name; currentProviderLoc = loc; conversationHistory = [];
+  currentProvider = name; currentProviderLoc = loc;
   document.getElementById('modalProviderName').textContent = name;
   document.getElementById('modalProviderLoc').textContent  = loc;
   document.getElementById('modalAvatar').textContent       = icon;
@@ -1025,7 +1050,7 @@ function openChat(name, loc, icon) {
     <span style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
       <span>💰 <strong>Price estimates</strong> for any treatment</span>
       <span>📅 <strong>Book a consultation</strong> appointment</span>
-      <span>🏥 <strong>Services &amp; specialties</strong> available</span>
+      <span>🏥 <strong>Services &amp; specialties</strong> available — cardiology, orthopedics, oncology, dermatology, obstetrics, pediatrics, ophthalmology, rehabilitation</span>
       <span>✈️ <strong>International patient</strong> support &amp; logistics</span>
     </span><br>How can I help you today?`);
   document.getElementById('chatModal').classList.add('open');
@@ -1037,21 +1062,150 @@ function closeChat() {
   document.body.style.overflow = '';
 }
 
-async function callAPI(messages, maxTok) {
-  const system = `You are the AI assistant for ${currentProvider}, a verified healthcare provider in ${currentProviderLoc}, listed on ArokaGO — Thailand's leading medical tourism platform.
+// ─── LOCAL INTENT ENGINE ─────────────────
+// Matches a user message to an intent + optional procedure so the assistant
+// can reply with text, a price-estimate card, and/or a booking button — the
+// same outputs the old tool-use flow was supposed to render.
+const PROCEDURES = {
+  'knee replacement': {
+    keys: ['knee','joint replacement','knee surgery'],
+    label: 'Knee Replacement Surgery',
+    items: [
+      { name: 'Orthopedic consultation & imaging (MRI)', price: 'THB 8,000 – 15,000' },
+      { name: 'Total knee replacement (single knee)',    price: 'THB 300,000 – 450,000' },
+      { name: 'Hospital stay (4–5 nights, private room)', price: 'THB 40,000 – 70,000' },
+      { name: 'Rehabilitation programme (2 weeks)',      price: 'THB 25,000 – 45,000' }
+    ]
+  },
+  'dental implant': {
+    keys: ['dental','dentist','implant','tooth','teeth','crown','veneer'],
+    label: 'Dental Implant (single tooth)',
+    items: [
+      { name: 'Initial consultation & 3D CBCT scan',  price: 'THB 2,500 – 5,000' },
+      { name: 'Implant fixture (titanium, Swiss/Korean)', price: 'THB 45,000 – 85,000' },
+      { name: 'Abutment + porcelain crown',           price: 'THB 20,000 – 35,000' },
+      { name: 'Bone grafting (if required)',          price: 'THB 15,000 – 40,000' }
+    ]
+  },
+  'cardiac': {
+    keys: ['heart','cardiac','cardiology','bypass','angioplasty','stent'],
+    label: 'Cardiac Care',
+    items: [
+      { name: 'Cardiology consultation + ECG',        price: 'THB 3,500 – 6,500' },
+      { name: 'Echocardiogram',                       price: 'THB 5,000 – 9,000' },
+      { name: 'Coronary angiogram',                   price: 'THB 60,000 – 110,000' },
+      { name: 'Angioplasty with single stent',        price: 'THB 350,000 – 550,000' }
+    ]
+  },
+  'cosmetic surgery': {
+    keys: ['cosmetic','plastic','rhinoplasty','nose job','liposuction','facelift','breast','aesthetic'],
+    label: 'Cosmetic Surgery',
+    items: [
+      { name: 'Consultation with plastic surgeon',    price: 'THB 1,500 – 3,500' },
+      { name: 'Rhinoplasty (nose reshaping)',         price: 'THB 90,000 – 180,000' },
+      { name: 'Liposuction (per area)',               price: 'THB 60,000 – 120,000' },
+      { name: 'Breast augmentation (implants)',       price: 'THB 150,000 – 280,000' }
+    ]
+  },
+  'ivf': {
+    keys: ['ivf','fertility','fertil','egg','embryo'],
+    label: 'IVF Fertility Programme',
+    items: [
+      { name: 'Fertility consultation + hormone panel', price: 'THB 6,000 – 12,000' },
+      { name: 'Ovarian stimulation medication (1 cycle)', price: 'THB 60,000 – 100,000' },
+      { name: 'Egg retrieval + ICSI fertilisation',   price: 'THB 180,000 – 260,000' },
+      { name: 'Embryo transfer + monitoring',         price: 'THB 40,000 – 70,000' }
+    ]
+  },
+  'oncology': {
+    keys: ['cancer','oncology','tumor','tumour','chemo','radiation'],
+    label: 'Oncology Screening & Treatment',
+    items: [
+      { name: 'Oncology consultation',                price: 'THB 3,000 – 6,000' },
+      { name: 'Full-body PET-CT scan',                price: 'THB 45,000 – 70,000' },
+      { name: 'Biopsy + pathology',                   price: 'THB 20,000 – 45,000' },
+      { name: 'Chemotherapy (per cycle, varies)',     price: 'THB 30,000 – 150,000' }
+    ]
+  },
+  'general check-up': {
+    keys: ['check','checkup','physical','screening','general health','wellness'],
+    label: 'Executive Health Check-up',
+    items: [
+      { name: 'Consultation + full blood panel',      price: 'THB 4,500 – 8,000' },
+      { name: 'Chest X-ray + abdominal ultrasound',   price: 'THB 5,000 – 9,000' },
+      { name: 'Cardiac stress test (EST)',            price: 'THB 6,000 – 10,000' },
+      { name: 'MRI or CT add-on (optional)',          price: 'THB 15,000 – 35,000' }
+    ]
+  }
+};
 
-ALWAYS call show_price_estimate when the user asks about cost, price, fee, or "how much". Provide realistic itemised THB price ranges for Thai private hospitals.
-ALWAYS call show_booking_form when the user wants to book, schedule, or make an appointment.
-For all other questions, answer in plain helpful text in under 80 words.
-Do not invent doctor names. Do not guarantee outcomes.`;
+function detectProcedure(lower) {
+  let best = null, bestHits = 0;
+  for (const key in PROCEDURES) {
+    const p = PROCEDURES[key];
+    const hits = p.keys.filter(k => lower.includes(k)).length + (lower.includes(key) ? 1 : 0);
+    if (hits > bestHits) { best = key; bestHits = hits; }
+  }
+  return best;
+}
 
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: maxTok, system, tools: TOOLS, messages })
-  });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
+function localAIResponse(text) {
+  const lower = text.toLowerCase();
+  const provider = currentProvider || 'our clinic';
+
+  const wantsPrice   = /\b(price|cost|fee|how much|expensive|budget|charge|rate)\b/.test(lower);
+  const wantsBooking = /\b(book|booking|schedule|appointment|consultation|reserve|slot)\b/.test(lower);
+
+  const procKey = detectProcedure(lower);
+  const proc    = procKey ? PROCEDURES[procKey] : null;
+
+  // PRICE intent — always render the card, offer a booking CTA too.
+  if (wantsPrice) {
+    const p = proc || PROCEDURES['general check-up'];
+    const leadIn = proc
+      ? `Here's a typical price range for <strong>${escH(p.label)}</strong> at ${escH(provider)}, based on published Thai private-hospital rates. Final pricing depends on your diagnostic workup and the treatment plan your specialist recommends.`
+      : `Happy to share indicative pricing. I've pulled up our most-requested programme — tell me the specific treatment (e.g. knee replacement, dental implant, rhinoplasty, IVF, cardiac care) and I'll narrow the estimate. `;
+    return {
+      text: leadIn,
+      priceCard: { procedure: p.label, items: p.items },
+      booking: p.label
+    };
+  }
+
+  // BOOKING intent
+  if (wantsBooking) {
+    const svc = proc ? proc.label : '';
+    return {
+      text: `Great — let's get your consultation at <strong>${escH(provider)}</strong> scheduled. Tap the button below to open the appointment form. Our international-patient team will confirm your slot (and any interpreter, transport, or visa-letter support you need) within 24 hours.`,
+      booking: svc
+    };
+  }
+
+  // Specific topic intents
+  if (/\b(service|specialt|department|treatment|offer|provide|what.*do)\b/.test(lower)) {
+    return { text: `${escH(provider)} covers a broad range of specialties — cardiology, orthopedics (including laparoscopic joint surgery), oncology, dermatology, obstetrics, pediatrics, ophthalmology, and rehabilitation. We also run executive health check-ups and cosmetic surgery programmes for international patients. Which area would you like to explore?` };
+  }
+  if (/\b(international|visa|flight|airport|hotel|accommodation|travel|transport)\b/.test(lower)) {
+    return { text: `We support international patients end-to-end: airport pickup, partner hotels within 10 minutes of ${escH(provider)}, English-speaking interpreters, and visa-letter assistance for longer stays. Share your arrival city and dates and the international-patient coordinator can put together a full itinerary — including rehabilitation and aftercare.` };
+  }
+  if (/\b(insurance|coverage|covered|claim|reimburse)\b/.test(lower)) {
+    return { text: `${escH(provider)} accepts most major international plans — Cigna Global, Bupa, Allianz Care, IMG, Aetna International — and offers direct-billing where the insurer supports it. For self-claim patients we issue fully itemised invoices suitable for reimbursement.` };
+  }
+  if (/\b(recovery|rehabilitation|aftercare|post[- ]?op|recover)\b/.test(lower)) {
+    return { text: `Rehabilitation is handled by our in-house team at ${escH(provider)} — typical post-op programmes run 1–3 weeks and combine physiotherapy, pain management, and wound care. For orthopedic and cardiac cases we coordinate ongoing rehabilitation at partner wellness resorts in Hua Hin or Chiang Mai.` };
+  }
+  if (/\b(anesthesia|anaesthes)\b/.test(lower)) {
+    return { text: `We use both local anesthesia (numbing one area) and general anesthesia (you are asleep) depending on the procedure. All anesthesia is supervised by a board-certified anesthesiologist, with full monitoring throughout surgery and recovery.` };
+  }
+  if (/\b(mri|ct|scan|biopsy|imaging|x[- ]?ray|ultrasound)\b/.test(lower)) {
+    return { text: `Diagnostic imaging at ${escH(provider)} includes MRI, CT, ultrasound, and X-ray on site, plus pathology for biopsy samples. Turnaround for most scans is the same day, and reports are prepared in English for international patients.` };
+  }
+  if (/^\s*(hi|hello|hey|hola|sawasdee|good (morning|afternoon|evening))\b/.test(lower)) {
+    return { text: `Hello! Thanks for reaching out to ${escH(provider)}. I can help with price estimates, booking a consultation, services offered, or international-travel logistics. What would you like to know?` };
+  }
+
+  // Fallback
+  return { text: `Thanks for your question about ${escH(provider)}. To give you the most useful answer, could you share a bit more — for example the treatment you're considering, whether you'd like a price estimate, or if you'd prefer to book a consultation? I can also help with insurance, travel logistics, or rehabilitation options.` };
 }
 
 async function sendMsg() {
@@ -1061,50 +1215,27 @@ async function sendMsg() {
   if (!text) return;
   input.value = '';
   addUserMsg(text);
-  conversationHistory.push({ role: 'user', content: text });
   isLoading = true; setDisabled(true); showTyping();
 
-  try {
-    const d1 = await callAPI(conversationHistory, 1024);
-    removeTyping();
+  // Small, human-feeling think delay.
+  await new Promise(r => setTimeout(r, 650 + Math.random() * 450));
 
-    let textOut = '', extraHtml = '';
-    const toolBlocks = d1.content.filter(b => b.type === 'tool_use');
-    const textBlocks  = d1.content.filter(b => b.type === 'text');
-    textBlocks.forEach(b => textOut += b.text);
+  const reply = localAIResponse(text);
+  removeTyping();
 
-    conversationHistory.push({ role: 'assistant', content: d1.content });
+  let extraHtml = '';
+  if (reply.priceCard) extraHtml += renderPriceCard(reply.priceCard);
+  if (reply.booking != null) extraHtml += renderBookingBtn(reply.booking);
 
-    if (toolBlocks.length && d1.stop_reason === 'tool_use') {
-      toolBlocks.forEach(t => {
-        if (t.name === 'show_price_estimate') extraHtml += renderPriceCard(t.input);
-        if (t.name === 'show_booking_form')   extraHtml += renderBookingBtn(t.input.suggested_service || '');
-      });
-      // Feed tool results back
-      conversationHistory.push({ role: 'user', content: toolBlocks.map(t => ({
-        type: 'tool_result', tool_use_id: t.id, content: 'Displayed to user.'
-      }))});
-      // Round 2 for accompanying text
-      showTyping();
-      const d2 = await callAPI(conversationHistory, 512);
-      removeTyping();
-      d2.content.filter(b => b.type==='text').forEach(b => textOut += b.text);
-      conversationHistory.push({ role: 'assistant', content: d2.content });
-    }
-
-    const textHtml = textOut.trim() ? `<span>${escH(textOut.trim()).replace(/\n/g,'<br>')}</span>` : '';
-    const full     = textHtml + (extraHtml ? `<div style="margin-top:${textHtml?'10':'0'}px">${extraHtml}</div>` : '');
-    if (full) {
-      const m = document.getElementById('chatMessages');
-      m.innerHTML += `<div class="msg-bot"><div class="msg-bubble">${full}</div><div class="msg-time">${ts()} · ${escH(currentProvider)}</div></div>`;
-      scrollC();
-      highlightTerms(m.lastElementChild);
-    }
-  } catch(err) {
-    removeTyping();
-    console.error('API error:', err);
-    addBotMsg('Sorry, there was a connection issue. Please try again in a moment.');
+  const textHtml = reply.text ? `<span>${reply.text}</span>` : '';
+  const full = textHtml + (extraHtml ? `<div style="margin-top:${textHtml ? '10' : '0'}px">${extraHtml}</div>` : '');
+  if (full) {
+    const m = document.getElementById('chatMessages');
+    m.innerHTML += `<div class="msg-bot"><div class="msg-bubble">${full}</div><div class="msg-time">${ts()} · ${escH(currentProvider)}</div></div>`;
+    scrollC();
+    highlightTerms(m.lastElementChild);
   }
+
   isLoading = false; setDisabled(false);
   document.getElementById('chatInput').focus();
 }
