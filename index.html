@@ -14,6 +14,111 @@ body {
   font-size: 15px; background: #fff; color: #1a1a1a; overflow-x: hidden;
 }
 
+/* ── AI SEARCH WIDGET ── */
+.ai-search-widget {
+  background: rgba(255,255,255,0.97);
+  border-radius: 16px;
+  padding: 20px 22px 16px;
+  width: 100%;
+  max-width: 660px;
+  margin: 24px auto 0;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  text-align: left;
+}
+.ai-search-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #0f1b24; color: #fff;
+  font-size: 12px; font-weight: 600;
+  padding: 5px 12px; border-radius: 20px;
+  margin-bottom: 12px;
+}
+.ai-search-input-wrap { position: relative; }
+.ai-search-textarea {
+  width: 100%; border: 1.5px solid #e8e8e8; border-radius: 10px;
+  padding: 12px 52px 12px 14px;
+  font-size: 14px; font-family: inherit; color: #333;
+  resize: none; outline: none; line-height: 1.55;
+  transition: border-color .2s;
+  background: #fafafa;
+}
+.ai-search-textarea:focus { border-color: #009688; background: #fff; }
+.ai-search-textarea::placeholder { color: #bbb; }
+ 
+/* Confidence ring badge (inside textarea corner) */
+.confidence-badge-inline {
+  display: flex; align-items: center; justify-content: center;
+  position: absolute; bottom: 10px; right: 10px;
+  width: 44px; height: 44px;
+}
+.conf-ring { width: 44px; height: 44px; transform: rotate(-90deg); position: absolute; }
+.conf-ring-bg { fill: none; stroke: #e8e8e8; stroke-width: 3.5; }
+.conf-ring-fill {
+  fill: none; stroke: #22c55e; stroke-width: 3.5;
+  stroke-linecap: round;
+  transition: stroke-dasharray .4s ease, stroke .4s;
+}
+.conf-pct {
+  position: relative; z-index: 1;
+  font-size: 9.5px; font-weight: 700; color: #22c55e;
+  line-height: 1;
+}
+ 
+/* Confidence strip */
+.conf-strip { margin-top: 10px; }
+.conf-strip-inner {
+  background: #f4fdfb; border: 1px solid #c8e6e0;
+  border-radius: 10px; padding: 10px 14px;
+}
+.conf-label-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 7px; flex-wrap: wrap; gap: 4px;
+}
+.conf-label-text { font-size: 12px; color: #555; }
+.conf-label-pct { font-size: 12px; font-weight: 700; color: #22c55e; }
+.conf-bar-track {
+  height: 6px; background: #e0f2ef; border-radius: 10px;
+  overflow: hidden; margin-bottom: 8px;
+}
+.conf-bar-fill {
+  height: 100%; background: #22c55e; border-radius: 10px;
+  transition: width .45s ease, background .4s;
+}
+.conf-hints { display: flex; flex-wrap: wrap; gap: 6px; }
+.conf-hint-chip {
+  font-size: 11px; background: #fff; border: 1px solid #c8e6e0;
+  color: #444; padding: 3px 10px; border-radius: 20px; line-height: 1.5;
+}
+.conf-hint-ok { background: #e8f5f3; border-color: #009688; color: #009688; font-weight: 600; }
+ 
+/* Search action buttons */
+.ai-search-actions {
+  display: flex; gap: 10px; margin-top: 12px;
+}
+.btn-ai-search {
+  flex: 1.2; background: #0f1b24; color: #fff;
+  font-size: 14px; font-weight: 600;
+  border: none; border-radius: 8px; padding: 12px 18px;
+  text-align: center; text-decoration: none; cursor: pointer;
+  transition: background .15s; display: block;
+}
+.btn-ai-search:hover { background: #1a2e3b; }
+.btn-ai-match {
+  flex: 1; background: #fff; color: #1a1a1a;
+  font-size: 14px; font-weight: 600;
+  border: 1.5px solid #ddd; border-radius: 8px; padding: 12px 18px;
+  cursor: pointer; font-family: inherit;
+  transition: border-color .15s, background .15s;
+}
+.btn-ai-match:hover { border-color: #009688; background: #f4fdfb; }
+ 
+/* Footer trust badges */
+.ai-search-footer {
+  display: flex; gap: 16px; justify-content: center;
+  margin-top: 12px; flex-wrap: wrap;
+}
+.ai-foot-item { font-size: 12px; color: #777; display: flex; align-items: center; gap: 5px; }
+.ai-foot-icon { color: #009688; }
+  
 /* NAV */
 .navbar {
   position: sticky; top: 0; z-index: 999;
@@ -448,14 +553,46 @@ footer { background: #0d0d0d; color: rgba(255,255,255,0.55); padding: 52px 40px 
     <div class="hero-eyebrow"><span class="dot"></span> 500,000+ Global Visitors Every Year</div>
     <h1>Experience Top-Tier Medical Tourism &amp; Wellness in Thailand</h1>
     <p>AI intelligently connects you with verified hospitals, clinics, wellness and health centers, and well-hotels in Thailand, supporting you every step of your journey.</p>
-    <div class="hero-btns">
-      <a href="https://www.arokago.com/providers" class="btn-hero-primary">Search Providers</a>
-      <a href="https://v0-medical-consultation-booking.vercel.app/chat" class="btn-hero-secondary">Match Me with Providers</a>
-    </div>
-    <div class="hero-badges">
-      <div class="hero-badge-item"><span>⚡</span> Instant AI Match</div>
-      <div class="hero-badge-item"><span>📍</span> Auto-detect Location</div>
-      <div class="hero-badge-item"><span>🕐</span> 24/7 Support</div>
+    <!-- AI SEARCH WIDGET -->
+    <div class="ai-search-widget">
+      <div class="ai-search-badge"><span style="font-size:15px">✦</span> AI-Assisted</div>
+      <div class="ai-search-input-wrap">
+        <textarea id="aiSearchInput" class="ai-search-textarea" rows="3"
+          placeholder="Describe your medical needs, preferred location, budget or any specific requirement..."
+          oninput="updateConfidence(this.value)"></textarea>
+        <div class="confidence-badge-inline" id="confidenceBadge" style="display:none">
+          <svg class="conf-ring" viewBox="0 0 36 36">
+            <circle class="conf-ring-bg" cx="18" cy="18" r="15.9"/>
+            <circle class="conf-ring-fill" id="confRingFill" cx="18" cy="18" r="15.9"
+              stroke-dasharray="0 100" stroke-dashoffset="25"/>
+          </svg>
+          <span class="conf-pct" id="confPct">0%</span>
+        </div>
+      </div>
+ 
+      <!-- Confidence bar strip -->
+      <div class="conf-strip" id="confStrip" style="display:none">
+        <div class="conf-strip-inner">
+          <div class="conf-label-row">
+            <span class="conf-label-text" id="confLabelText">Add more details to improve matching accuracy</span>
+            <span class="conf-label-pct" id="confLabelPct">0% Match Confidence</span>
+          </div>
+          <div class="conf-bar-track">
+            <div class="conf-bar-fill" id="confBarFill" style="width:0%"></div>
+          </div>
+          <div class="conf-hints" id="confHints"></div>
+        </div>
+      </div>
+ 
+      <div class="ai-search-actions">
+        <a href="https://www.arokago.com/providers" class="btn-ai-search">Search Providers →</a>
+        <button class="btn-ai-match" onclick="openMatchModal()">Match me with providers</button>
+      </div>
+      <div class="ai-search-footer">
+        <span class="ai-foot-item"><span class="ai-foot-icon">✓</span> AI Instant Matching</span>
+        <span class="ai-foot-item"><span class="ai-foot-icon">📍</span> Auto Location Detection</span>
+        <span class="ai-foot-item"><span class="ai-foot-icon">🕐</span> 24/7 Support</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1918,6 +2055,52 @@ function submitDonate() {
 }
 </script>
 <style>@keyframes dot{0%,80%,100%{opacity:.2}40%{opacity:1}}</style>
+
+  <!-- MATCH ME WITH PROVIDER MODAL -->
+<div class="chat-modal-overlay" id="matchModal" onclick="if(event.target===this)closeMatchModal()" style="z-index:2200;">
+  <div class="booking-modal" style="max-width:480px;">
+    <div class="booking-modal-header">
+      <div>
+        <div style="font-size:16px;font-weight:700;color:#1a1a1a">Match Me with Provider</div>
+        <div style="font-size:12px;color:#888;margin-top:3px;line-height:1.5;">Describe your healthcare needs and let our AI match you with the best providers. You'll receive personalized offers from qualified healthcare facilities.</div>
+      </div>
+      <button class="chat-close" style="color:#666" onclick="closeMatchModal()">✕</button>
+    </div>
+    <div class="booking-modal-body" id="matchModalBody">
+      <div class="booking-field">
+        <label>Medical Condition Description</label>
+        <div style="position:relative;">
+          <textarea id="matchInput" rows="4" placeholder="e.g. stomach pain for 2 weeks, need specialist in Bangkok, budget $500…"
+            style="border:1px solid #e0e0e0;border-radius:8px;padding:10px 50px 10px 12px;font-size:14px;font-family:inherit;outline:none;width:100%;resize:vertical;transition:border .15s;"
+            onfocus="this.style.borderColor='#009688'" onblur="this.style.borderColor='#e0e0e0'"
+            oninput="updateMatchConfidence(this.value)"></textarea>
+          <div id="mConfBadge" class="confidence-badge-inline" style="display:none;position:absolute;bottom:10px;right:10px;">
+            <svg class="conf-ring" viewBox="0 0 36 36">
+              <circle class="conf-ring-bg" cx="18" cy="18" r="15.9"/>
+              <circle class="conf-ring-fill" id="mConfRingFill" cx="18" cy="18" r="15.9"
+                stroke-dasharray="0 100" stroke-dashoffset="25"/>
+            </svg>
+            <span class="conf-pct" id="mConfPct">0%</span>
+          </div>
+        </div>
+      </div>
+      <div class="conf-strip" id="mConfStrip" style="display:none;">
+        <div class="conf-strip-inner" style="background:#f8fffe;border:1px solid #e0f2ef;">
+          <div class="conf-label-row">
+            <span class="conf-label-text" id="mConfLabelText">Add more details</span>
+            <span class="conf-label-pct" id="mConfLabelPct">0% Match Confidence</span>
+          </div>
+          <div class="conf-bar-track">
+            <div class="conf-bar-fill" id="mConfBarFill" style="width:0%"></div>
+          </div>
+          <div class="conf-hints" id="mConfHints"></div>
+        </div>
+      </div>
+      <button class="booking-submit" onclick="submitMatch()">🎯 Find My Matches</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
+ 
  
