@@ -2158,46 +2158,64 @@ function submitMatch() {
     </div>`;
 }
  
-// ─── AROKACLUB DONATE ────────────────────
-let currentCharity = '';
-function openDonate(name, icon) {
-  currentCharity = name;
-  document.getElementById('donateName').textContent = `Donate to ${name} ${icon}`;
-  document.getElementById('donateAmt').value = '';
-  document.getElementById('donateCalc').innerHTML = `<div style="font-size:13px;color:#555">Enter points above to see donation value</div>`;
-  document.getElementById('donateBody').querySelector('.booking-submit') && null;
-  // Reset body in case it was previously a success screen
-  if (!document.getElementById('donateAmt')) {
-    document.getElementById('donateBody').innerHTML = `
-      <div class="points-display"><div class="big">12,500</div><div class="label">Your Available Points</div></div>
-      <div class="booking-field"><label>Points to Donate</label><input type="number" id="donateAmt" placeholder="Min. 1,000 points" min="1000" step="1000" oninput="calcDonate()"/></div>
-      <div style="background:#f4fdfb;border:1px solid #c8e6e0;border-radius:10px;padding:14px;text-align:center" id="donateCalc"><div style="font-size:13px;color:#555">Enter points above to see donation value</div></div>
-      <div class="booking-field"><label>Your Name (optional)</label><input type="text" id="donateName2" placeholder="Anonymous"/></div>
-      <button class="booking-submit" onclick="submitDonate()" style="background:linear-gradient(120deg,#f59e0b,#fcd34d);color:#1a1a1a">💚 Confirm Donation</button>`;
-  }
-  document.getElementById('donateModal').classList.add('open');
+// ─── AROKACLUB REDEEM ────────────────────
+const USER_POINTS = 12500;
+let currentRedeem = {};
+ 
+function filterRedeem(btn, cat) {
+  document.querySelectorAll('.redeem-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.redeem-card').forEach(card => {
+    card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+  });
 }
-function closeDonate() { document.getElementById('donateModal').classList.remove('open'); }
-function calcDonate() {
-  const pts = parseInt(document.getElementById('donateAmt').value) || 0;
-  const thb = Math.floor(pts / 1000) * 100;
-  const el  = document.getElementById('donateCalc');
-  if (pts < 1000) {
-    el.innerHTML = `<div style="font-size:13px;color:#e53e3e">Minimum 1,000 points required</div>`;
-  } else {
-    el.innerHTML = `<div style="font-size:13px;color:#555;margin-bottom:6px">${pts.toLocaleString()} points =</div><div style="font-size:26px;font-weight:700;color:#009688">THB ${thb.toLocaleString()}</div><div style="font-size:11px;color:#aaa;margin-top:4px">donated to ${currentCharity}</div>`;
-  }
+ 
+function openRedeem(name, icon, pts, value, provider, cat) {
+  const cost = parseInt(pts.replace(/,/g,''));
+  const canAfford = USER_POINTS >= cost;
+  currentRedeem = { name, icon, pts, cost, value, provider };
+ 
+  document.getElementById('redeemModalTitle').textContent = `${icon} ${name}`;
+  document.getElementById('redeemModalSub').textContent = `${pts} points required`;
+ 
+  document.getElementById('redeemModalBody').innerHTML = `
+    <div class="points-bal">
+      <div class="num">${USER_POINTS.toLocaleString()}</div>
+      <div class="lbl">Your Available Points</div>
+    </div>
+    <div class="redeem-summary">
+      <div class="redeem-summary-row"><span>Reward</span><span style="font-weight:600;color:#1a1a1a">${name}</span></div>
+      <div class="redeem-summary-row"><span>Provider</span><span>${provider}</span></div>
+      <div class="redeem-summary-row"><span>Discount Value</span><span style="color:#009688;font-weight:600">${value}</span></div>
+      <div class="redeem-summary-row total"><span>Points to Deduct</span><span>${pts} pts</span></div>
+      <div class="redeem-summary-row" style="font-size:12px;color:#888;padding-top:6px"><span>Remaining Balance</span><span>${canAfford ? (USER_POINTS - cost).toLocaleString() + ' pts' : '<span style="color:#e53e3e">Insufficient points</span>'}</span></div>
+    </div>
+    <div class="booking-field"><label>Your Name</label><input type="text" id="rdName" placeholder="Your full name"/></div>
+    <div class="booking-field"><label>Email</label><input type="email" id="rdEmail" placeholder="your@email.com"/></div>
+    <div class="booking-field"><label>Preferred Redemption Date</label><input type="date" id="rdDate"/></div>
+    ${!canAfford ? `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:12px;font-size:13px;color:#b91c1c;text-align:center">You need <strong>${(cost - USER_POINTS).toLocaleString()} more points</strong> to redeem this reward. Earn more by booking treatments or referring friends.</div>` : ''}
+    <button class="booking-submit" onclick="submitRedeem()" ${!canAfford ? 'disabled style="opacity:.5;cursor:not-allowed"' : 'style="background:linear-gradient(120deg,#009688,#0369a1)"'}>
+      ${canAfford ? '🎁 Confirm Redemption' : 'Not Enough Points'}
+    </button>`;
+ 
+  document.getElementById('redeemModal').classList.add('open');
 }
-function submitDonate() {
-  const pts  = parseInt(document.getElementById('donateAmt').value) || 0;
-  if (pts < 1000) { alert('Minimum 1,000 points required.'); return; }
-  const thb  = Math.floor(pts / 1000) * 100;
-  document.getElementById('donateBody').innerHTML = `
+ 
+function closeRedeem() { document.getElementById('redeemModal').classList.remove('open'); }
+ 
+function submitRedeem() {
+  const name  = document.getElementById('rdName').value.trim();
+  const email = document.getElementById('rdEmail').value.trim();
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  const remaining = USER_POINTS - currentRedeem.cost;
+  document.getElementById('redeemModalBody').innerHTML = `
     <div class="booking-success">
-      <div class="success-icon">💚</div>
-      <h3>Thank You!</h3>
-      <p>You've donated <strong>${pts.toLocaleString()} points</strong> (THB ${thb.toLocaleString()}) to <strong>${currentCharity}</strong>.<br><br>Your generosity makes a real difference. Your remaining balance will be updated shortly.</p>
-      <button onclick="closeDonate()" style="margin-top:20px;background:#009688;color:#fff;border:none;border-radius:8px;padding:11px 28px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">Done</button>
+      <div class="success-icon">${currentRedeem.icon}</div>
+      <h3>Reward Redeemed!</h3>
+      <p><strong>${currentRedeem.name}</strong> has been successfully redeemed.<br><br>
+      A voucher code will be sent to <strong>${escH(email)}</strong> within a few minutes. Present it at <strong>${currentRedeem.provider}</strong> during your visit.<br><br>
+      <span style="font-size:13px;color:#009688;font-weight:600">Remaining balance: ${remaining.toLocaleString()} pts</span></p>
+      <button onclick="closeRedeem()" style="margin-top:20px;background:#009688;color:#fff;border:none;border-radius:8px;padding:11px 28px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">Done</button>
     </div>`;
 }
 </script>
